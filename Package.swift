@@ -8,19 +8,19 @@ import PackageDescription
 import AppleProductTypes
 
 let package = Package(
-    name: "primo-playground",
+    name: "ShowerTime",
     platforms: [
         .iOS("16.0")
     ],
     products: [
         .iOSApplication(
-            name: "primo-playground",
+            name: "ShowerTime",
             targets: ["AppModule"],
             bundleIdentifier: "io.github.emahhh.primo-playground",
             displayVersion: "1.0",
             bundleVersion: "1",
-            appIcon: .placeholder(icon: .earth),
-            accentColor: .presetColor(.blue),
+            appIcon: .placeholder(icon: .leaf),
+            accentColor: .presetColor(.green),
             supportedDeviceFamilies: [
                 .pad,
                 .phone
@@ -30,7 +30,8 @@ let package = Package(
                 .landscapeRight,
                 .landscapeLeft,
                 .portraitUpsideDown(.when(deviceFamilies: [.pad]))
-            ]
+            ],
+            appCategory: .lifestyle
         )
     ],
     targets: [
