@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    @State var liters : Int = 0;
+    
     var body: some View {
         ZStack {
             Color.appBackground
@@ -24,7 +27,9 @@ struct HomeView: View {
                         .shadow(radius: 10)
                         .foregroundColor(Color.white.opacity(0.5))
                     
-                    Text("15 L")
+                    
+                    // If the timer hasn't started, show the "start shower" button
+                    Text(liters.description + " L")
                         .font(.largeTitle)
                         .fontWeight(.black)
                         .shadow(radius: 10)

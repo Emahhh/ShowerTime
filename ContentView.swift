@@ -5,14 +5,13 @@ extension Color {
 }
 
 struct ContentView: View {
-    @State private var selectedTab = 0
     
     var body: some View {
         ZStack{
             Color(UIColor.lightGray)
                 .ignoresSafeArea()
             
-            TabView(selection: $selectedTab) {
+            TabView() {
                 // Home Tab
                 HomeView()
                     .tabItem {
