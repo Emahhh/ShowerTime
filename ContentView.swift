@@ -26,7 +26,6 @@ struct ContentView: View {
                         Image(systemName: "chart.bar.fill")
                         Text("Stats")
                     }
-                    .tag(1)
                 
                 // Learn Tab
                 LearnView()
@@ -34,7 +33,6 @@ struct ContentView: View {
                         Image(systemName: "book.fill")
                         Text("Learn")
                     }
-                    .tag(2)
                 
                 // Settings Tab
                 SettingsView()
@@ -42,7 +40,6 @@ struct ContentView: View {
                         Image(systemName: "gearshape.fill")
                         Text("Settings")
                     }
-                    .tag(3)
             }
         }
     }
