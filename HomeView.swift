@@ -126,8 +126,11 @@ struct HomeView: View {
     }
 
     func startTimer() {
+        showerData.startTime = Date();
+        updateTimerAndData();
         isStarted = true;
-        showerData.startTime = Date()
+        updateTimerAndData();
+
     }
     
     func endShower() {
@@ -136,8 +139,11 @@ struct HomeView: View {
         showerData.endTime = Date();
         // TODO: save the shower data
         
-        // reset showerData
+        // reset showerData and pause tracker
         showerData = ShowerData();
+        currentPauseStartTimestamp = nil;
+        totalPausedTime = 0;
+        isPastMaxTime = false;
     }
     
     func handlePause() {
