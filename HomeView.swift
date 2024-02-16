@@ -4,8 +4,25 @@ import Combine
 struct HomeView: View {
 
     @StateObject var showerData = ShowerData();
-    @State private var isRunning: Bool = false;
     @State private var mySettings: ShowerSettings = ShowerSettings();
+    
+    @State private var isStarted: Bool = false;
+    
+    @State private var timeSoFar : String = "00:00";
+    @State private var timeLeft : String = "00:00";
+    
+    
+    
+    // pause variables ---------
+    
+    // timestamp of the last time the "pause" button was pressed
+    // if the timer is not in pause right now, it must be nil
+    @State private var currentPauseStartTimestamp : Date? = nil;
+    
+    // time passed during various pauses, to be subtracted when calculating the time so far, and updated when ending a pause or the shower
+    @State private var totalPausedTime : Int = 0;
+    
+
 
     
     private var timerPublisher = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -39,7 +56,7 @@ struct HomeView: View {
                 
                 
                 // Show "End Shower" button only if the timer is active
-                if isRunning {
+                if isStarted {
                     
                     
                     Button("End Shower") {
@@ -47,9 +64,20 @@ struct HomeView: View {
                     }
                     .padding()
                     
+                    
+                    Button(action: handlePause) {
+                                    Text(isPaused() ? "Resume" : "Pause")
+                                        .font(.title)
+                                        .padding()
+                                        .background(isPaused() ? Color.green : Color.red)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(10)
+                    }
+                    
+                    
                     HStack {
-                        Text("\(timeSoFar())")
-                        Text("- \(timeLeft())")
+                        Text("\(timeSoFar)")
+                        Text("- \(timeLeft)")
                     }
                     .padding()
 
@@ -74,57 +102,75 @@ struct HomeView: View {
     
     
     
-    
-    func timeLeft() -> String {
-        guard let startTime = showerData.startTime else { return "N/A" }
-        let elapsedTime = Date().timeIntervalSince(startTime)
-        let remainingTime = max(0, mySettings.maxShowerTime - elapsedTime)
-        let minutes = Int(remainingTime) / 60
-        let seconds = Int(remainingTime) % 60
-        return String(format: "%02d:%02d left", minutes, seconds)
-    }
-    
-    func timeSoFar() -> String {
-        guard let startTime = showerData.startTime else { return "N/A" }
-        let elapsedTime = Date().timeIntervalSince(startTime)
-        let minutes = Int(elapsedTime) / 60
-        let seconds = Int(elapsedTime) % 60
-        return String(format: "%02d:%02d", minutes, seconds)
+    func isPaused() -> Bool {
+        return currentPauseStartTimestamp != nil;
     }
 
     func startTimer() {
-        isRunning = true;
+        isStarted = true;
         showerData.startTime = Date()
-
     }
-
-    func updateTimerAndData() {
-        guard isRunning else {return};
-        
-        guard let startTime = showerData.startTime else {
-            print("Error: startTime is nil")
-            return;
-        };
-        
-        let elapsedTime = Date().timeIntervalSince(startTime)
-        
-        // Check if the maximum shower time is reached
-        if elapsedTime >= mySettings.maxShowerTime {
-            // TODO: keep going but with alert
-            // TODO: decide when to notify
-        }
-        
-        let litersDouble : Double = Double(mySettings.litersPerMinute) * (elapsedTime/60);
-        showerData.litersConsumed = Int(litersDouble);
-    }
-
+    
     func endShower() {
         updateTimerAndData(); // update data one last time
-        isRunning = false;
+        isStarted = false;
         showerData.endTime = Date();
         // TODO: save the shower data
     }
+    
+    func handlePause() {
+        if let t = currentPauseStartTimestamp {
+            totalPausedTime += Int(Date().timeIntervalSince(t));
+            currentPauseStartTimestamp = nil;
+        } else {
+            currentPauseStartTimestamp = Date();
+        }
+    }
+    
+    
+    
+    func updateTimerAndData() {
+        guard isStarted else { return }
+        
+        guard let startTime = showerData.startTime else {
+            print("Error: startTime is nil, but isStarted is true!")
+            return;
+        }
+        
+        // update paused time
+        let cpst = self.currentPauseStartTimestamp ?? Date();
+        let currentPausedTime = Int(Date().timeIntervalSince(cpst));
+        
+        showerData.showerDuration = Int(Date().timeIntervalSince(startTime)) - totalPausedTime - currentPausedTime;
+        
+        
+        showerData.litersConsumed = Int(Double(mySettings.litersPerMinute) * Double(showerData.showerDuration) / 60)
+        
+        // time so far to be shown in the view
+        let minutesSoFar = showerData.showerDuration / 60
+        let secondsSoFar = showerData.showerDuration % 60
+        timeSoFar = String(format: "%02d:%02d", minutesSoFar, secondsSoFar)
+        
+        // time left to be shown
+        let remainingTime : Int = mySettings.maxShowerTime - showerData.showerDuration;
+        let minutesLeft = Int(remainingTime) / 60
+        let secondsLeft = Int(remainingTime) % 60
+        timeLeft = String(format: "%02d:%02d left", minutesLeft, secondsLeft)
+    
+    
+        // Check if the maximum shower time is reached
+        if showerData.showerDuration >= mySettings.maxShowerTime {
+            // TODO: keep going but with alert
+            // TODO: decide when to notify
+        }
+    }
+    
+    
+    
+
 }
+
+
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
