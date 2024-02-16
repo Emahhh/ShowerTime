@@ -10,35 +10,31 @@ struct ContentView: View {
         ZStack{
             Color(UIColor.lightGray)
                 .ignoresSafeArea()
-            
-            TabView() {
+            TabView {
                 // Home Tab
                 HomeView()
                     .tabItem {
-                        Image(systemName: "house")
-                        Text("Home")
+                        Label("Home", systemImage: "house")
                     }
                 
                 // Stats Tab
                 StatsView()
                     .tabItem {
-                        Image(systemName: "chart.bar.fill")
-                        Text("Stats")
+                        Label("Stats", systemImage: "chart.bar.fill")
                     }
                 
                 // Learn Tab
                 LearnView()
                     .tabItem {
-                        Image(systemName: "book.fill")
-                        Text("Learn")
+                        Label("Learn", systemImage: "book.fill")
                     }
                 
                 // Settings Tab
                 SettingsView()
                     .tabItem {
-                        Image(systemName: "gearshape.fill")
-                        Text("Settings")
+                        Label("Settings", systemImage: "gearshape.fill")
                     }
+
             }
         }
     }
