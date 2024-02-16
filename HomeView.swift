@@ -3,13 +3,16 @@ import Combine
 
 struct HomeView: View {
 
-    @StateObject var showerData = ShowerData();
+    @State var showerData = ShowerData();
     @State private var mySettings: ShowerSettings = ShowerSettings();
     
     @State private var isStarted: Bool = false;
     
     @State private var timeSoFar : String = "00:00";
     @State private var timeLeft : String = "00:00";
+    
+    @State private var isPastMaxTime : Bool = false;
+
     
     
     
@@ -80,6 +83,16 @@ struct HomeView: View {
                         Text("- \(timeLeft)")
                     }
                     .padding()
+                    
+                    
+                    if isPastMaxTime {
+                        Text("OOOOO stop!!!")
+                            .font(.largeTitle)
+                            .fontWeight(.black)
+                            .rotationEffect(Angle(degrees:-5))
+                    }
+                    
+                    
 
                 } else {
                     // Show "Start Shower" button only if the timer hasn't started
@@ -92,12 +105,18 @@ struct HomeView: View {
                 
                 Spacer()
             }
-        }
+            
+            
+            
+        } // end of VStack
         .onReceive(timerPublisher) { _ in
             // when I recieve an event from the timer
             // I update the timer values (every 1 second)
             updateTimerAndData()
         }
+        
+        
+        
     } // end of the view's body
     
     
@@ -116,6 +135,9 @@ struct HomeView: View {
         isStarted = false;
         showerData.endTime = Date();
         // TODO: save the shower data
+        
+        // reset showerData
+        showerData = ShowerData();
     }
     
     func handlePause() {
@@ -160,8 +182,8 @@ struct HomeView: View {
     
         // Check if the maximum shower time is reached
         if showerData.showerDuration >= mySettings.maxShowerTime {
-            // TODO: keep going but with alert
-            // TODO: decide when to notify
+            isPastMaxTime = true;
+            // TODO: decide when to notify with sound
         }
     }
     
