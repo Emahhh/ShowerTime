@@ -80,7 +80,7 @@ struct HomeView: View {
                     
                     HStack {
                         Text("\(timeSoFar)")
-                        Text("- \(timeLeft)")
+                        Text("- \(timeLeft)") // TODO: non mostrare valori negativi quando finito tempo
                     }
                     .padding()
                     
@@ -121,11 +121,14 @@ struct HomeView: View {
     
     
     
+    // TODO: implementare in altro modo così che si veda subito che è stato stoppato e non al prossimo secondo?
     func isPaused() -> Bool {
         return currentPauseStartTimestamp != nil;
     }
 
     func startTimer() {
+        debugPrint("Starting timer!");
+        
         showerData.startTime = Date();
         updateTimerAndData();
         isStarted = true;
@@ -134,6 +137,7 @@ struct HomeView: View {
     }
     
     func endShower() {
+        debugPrint("Ending shower!");
         updateTimerAndData(); // update data one last time
         isStarted = false;
         showerData.endTime = Date();
