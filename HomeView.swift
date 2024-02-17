@@ -120,8 +120,6 @@ struct HomeView: View {
     } // end of the view's body
     
     
-    
-    // TODO: implementare in altro modo così che si veda subito che è stato stoppato e non al prossimo secondo?
     func isPaused() -> Bool {
         return currentPauseStartTimestamp != nil;
     }
@@ -169,11 +167,12 @@ struct HomeView: View {
             return;
         }
         
-        // update paused time
-        let cpst = self.currentPauseStartTimestamp ?? Date();
-        let currentPausedTime = Int(Date().timeIntervalSince(cpst));
+        // in this case, we are in a pause. we do not update the view.
+        guard (self.currentPauseStartTimestamp == nil) else { return }
+
         
-        showerData.showerDuration = Int(Date().timeIntervalSince(startTime)) - totalPausedTime - currentPausedTime;
+        
+        showerData.showerDuration = Int(Date().timeIntervalSince(startTime)) - totalPausedTime;
         
         
         showerData.litersConsumed = Int(Double(mySettings.litersPerMinute) * Double(showerData.showerDuration) / 60)
