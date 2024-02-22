@@ -46,7 +46,7 @@ struct HomeView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
-                Text("Welcome to ShowerTime!")
+                Text("Streak: \(myUserStats.streak)")
                 
                 Spacer()
                 

@@ -51,9 +51,9 @@ struct SettingsView: View {
                     Text("Max Shower Time: \(mySettings.maxShowerTime) minutes")
                 }
                                
-                Picker("Liters Per Minute", selection: mySettings.$litersPerMinute) {
-                    Text("8 (very efficient)").tag(8)
-                    Text("20 (inefficient)").tag(20)
+                Picker("Select your kind of showerhead", selection: mySettings.$litersPerMinute) {
+                    Text("8 liters per minute (efficient showerhead)").tag(8)
+                    Text("20 liters per minute (inefficient)").tag(20)
                 }
                                
 
