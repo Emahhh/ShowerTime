@@ -171,8 +171,10 @@ struct HomeView: View {
         // TODO: celebrate won or loss in a nice way ----
         
         // Show alert to celebrate win or loss
-        alertMessage = showerData.won ? "Congratulations! You saved water!" : "Oops! You exceeded the allowed shower time. :(";
-        alertMessage += " You won \(UserStatistics.totalTimesWon) times so far!";
+        alertMessage = showerData.won ? "Congratulations! You saved water!" : "Oops! You exceeded the allowed shower time. :(\n";
+        
+        alertMessage += " You won \(UserStatistics.totalTimesWon) times so far, consumed an avaerage of \(UserStatistics.averageLitersConsumed) L, and saved \(UserStatistics.totalLitersSaved) L.";
+        
         showEndAlert = true;
         //TODO: confetti animation
         
@@ -242,7 +244,6 @@ struct HomeView: View {
     
 
 }
-
 
 
 struct HomeView_Previews: PreviewProvider {
