@@ -6,11 +6,12 @@ extension UserDefaults {
         static let totalShowers = "totalShowers"
         static let totalTimesWon = "totalTimesWon"
         static let totalLitersSaved = "totalLitersSaved"
+        static let streak = "streak"
     }
 }
 
 
-class UserStatistics {
+class UserStats {
     
     // Properties to store user statistics
     static var averageLitersConsumed: Int {
@@ -49,12 +50,25 @@ class UserStatistics {
         }
     }
     
+    static var streak : Int {
+        get {
+            return UserDefaults.standard.integer(forKey: UserDefaults.Keys.streak)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: UserDefaults.Keys.streak)
+        }
+    }
+    
     /// save a new completed shower updating the statistics
     static func saveNewShower(isWon: Bool, litersConsumed: Int, litersSaved: Int) {
         totalShowers += 1
         if isWon {
             totalTimesWon += 1
+            streak += 1
+        } else {
+            streak = 0
         }
+        
         averageLitersConsumed = (averageLitersConsumed * (totalShowers - 1) + litersConsumed) / totalShowers
         totalLitersSaved += litersSaved
     }
