@@ -16,6 +16,9 @@ struct HomeView: View {
     @State private var waterMessagesManager = WaterMessagesManager();
 
     
+    @State private var showEndAlert : Bool = false;
+    @State private var alertMessage : String = "";
+    
     
     
     // pause variables ---------
@@ -119,6 +122,9 @@ struct HomeView: View {
             // I update the timer values (every 1 second)
             updateTimerAndData()
         }
+        .alert(isPresented: $showEndAlert) {
+            Alert(title: Text("Shower Result"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+        }
         
         
         
@@ -150,13 +156,27 @@ struct HomeView: View {
         updateTimerAndData(); // update data one last time
         isStarted = false;
         showerData.endTime = Date();
+        
         // TODO: save the shower data
+        showerData.won = showerData.showerDuration <= (mySettings.maxShowerTime + mySettings.gracePeriod);
+        
+
+        
+        
+        
+        // TODO: celebrate won or loss in a nice way
+        
+        // Show alert to celebrate win or loss
+        alertMessage = showerData.won ? "Congratulations! You saved water!" : "Oops! You exceeded the allowed shower time. :("
+        showEndAlert = true;
+        
         
         // reset showerData and pause tracker
-        showerData = ShowerData();
+        showerData = ShowerData(); // resets
         currentPauseStartTimestamp = nil;
         totalPausedTime = 0;
         isPastMaxTime = false;
+        
     }
     
     func handlePause() {
