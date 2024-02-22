@@ -13,7 +13,7 @@ extension UserDefaults {
 class UserStatistics {
     
     // Properties to store user statistics
-    var averageLitersConsumed: Int {
+    static var averageLitersConsumed: Int {
         get {
             return UserDefaults.standard.integer(forKey: UserDefaults.Keys.averageLitersConsumed)
         }
@@ -22,7 +22,7 @@ class UserStatistics {
         }
     }
     
-    var totalShowers: Int {
+    static var totalShowers: Int {
         get {
             return UserDefaults.standard.integer(forKey: UserDefaults.Keys.totalShowers)
         }
@@ -31,7 +31,7 @@ class UserStatistics {
         }
     }
     
-    var totalTimesWon: Int {
+    static var totalTimesWon: Int {
         get {
             return UserDefaults.standard.integer(forKey: UserDefaults.Keys.totalTimesWon)
         }
@@ -40,7 +40,7 @@ class UserStatistics {
         }
     }
     
-    var totalLitersSaved: Int {
+    static var totalLitersSaved: Int {
         get {
             return UserDefaults.standard.integer(forKey: UserDefaults.Keys.totalLitersSaved)
         }
@@ -49,8 +49,8 @@ class UserStatistics {
         }
     }
     
-    // Function to save new shower statistics
-    func saveNewShower(isWon: Bool, litersConsumed: Int, litersSaved: Int) {
+    /// save a new completed shower updating the statistics
+    static func saveNewShower(isWon: Bool, litersConsumed: Int, litersSaved: Int) {
         totalShowers += 1
         if isWon {
             totalTimesWon += 1

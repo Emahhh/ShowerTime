@@ -159,7 +159,11 @@ struct HomeView: View {
         showerData.won = showerData.showerDuration <= (mySettings.maxShowerTime + mySettings.gracePeriod);
         
         // TODO: save the shower data
-        saveShower(shower: showerData);
+        UserStatistics.saveNewShower(
+            isWon: showerData.won,
+            litersConsumed: showerData.litersConsumed,
+            litersSaved: 1 // TODO: calculate extimation liters saved
+        );
 
         
         
@@ -167,7 +171,8 @@ struct HomeView: View {
         // TODO: celebrate won or loss in a nice way ----
         
         // Show alert to celebrate win or loss
-        alertMessage = showerData.won ? "Congratulations! You saved water!" : "Oops! You exceeded the allowed shower time. :("
+        alertMessage = showerData.won ? "Congratulations! You saved water!" : "Oops! You exceeded the allowed shower time. :(";
+        alertMessage += " You won \(UserStatistics.totalTimesWon) times so far!";
         showEndAlert = true;
         //TODO: confetti animation
         
@@ -233,13 +238,6 @@ struct HomeView: View {
             // TODO: decide when to notify with sound
         }
     }
-    
-    
-    /// saves the shower the user just ended, by updating the stats.
-    func saveShower(shower : ShowerData) {
-        
-    }
-    
     
     
 
