@@ -20,12 +20,7 @@ struct SettingsView: View {
             
             VStack{
                 Text("Hello, Settings!")
-                Button("Reset statistics") {
-                    myStats.resetStats();
-                }
-                Button("Reset settings") {
-                    mySettings.resetSettings();
-                }
+
                 
                 Text(
                     """
@@ -36,6 +31,30 @@ struct SettingsView: View {
                     Grace period: \(mySettings.gracePeriod)
                     """
                 )
+                
+                Divider()
+
+                
+                Button("Reset statistics") {
+                    myStats.resetStats();
+                }
+                Button("Reset settings") {
+                    mySettings.resetSettings();
+                }
+                
+                
+                Divider()
+                
+                
+                Stepper(value: mySettings.$maxShowerTime, in: 4...15, step: 1) {
+                                   Text("Max Shower Time: \(mySettings.maxShowerTime) minutes")
+                               }
+                               
+                Picker("Liters Per Minute", selection: mySettings.$litersPerMinute) {
+                    Text("8 (very efficient)").tag(8)
+                    Text("20 (inefficient)").tag(20)
+                }
+                               
 
             }
             
