@@ -156,22 +156,23 @@ struct HomeView: View {
         updateTimerAndData(); // update data one last time
         isStarted = false;
         showerData.endTime = Date();
-        
-        // TODO: save the shower data
         showerData.won = showerData.showerDuration <= (mySettings.maxShowerTime + mySettings.gracePeriod);
         
+        // TODO: save the shower data
+        saveShower(shower: showerData);
 
         
         
         
-        // TODO: celebrate won or loss in a nice way
+        // TODO: celebrate won or loss in a nice way ----
         
         // Show alert to celebrate win or loss
         alertMessage = showerData.won ? "Congratulations! You saved water!" : "Oops! You exceeded the allowed shower time. :("
         showEndAlert = true;
+        //TODO: confetti animation
         
         
-        // reset showerData and pause tracker
+        // reset showerData and pause tracker ------
         showerData = ShowerData(); // resets
         currentPauseStartTimestamp = nil;
         totalPausedTime = 0;
@@ -231,6 +232,12 @@ struct HomeView: View {
             isPastMaxTime = true;
             // TODO: decide when to notify with sound
         }
+    }
+    
+    
+    /// saves the shower the user just ended, by updating the stats.
+    func saveShower(shower : ShowerData) {
+        
     }
     
     
