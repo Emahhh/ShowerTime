@@ -9,8 +9,9 @@ class ShowerSettingsManager: ObservableObject {
     @AppStorage("litersPerMinute") var litersPerMinute: Int = 10
     @AppStorage("gracePeriod") var gracePeriod: Int = 5
 
-    // Reset settings function
+    /// Resets settings to default
     func resetSettings() {
+        // TODO: put the real default vaues as in the UI
         maxShowerTime = 10
         litersPerMinute = 8
         gracePeriod = 4
