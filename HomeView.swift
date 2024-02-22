@@ -12,6 +12,8 @@ struct HomeView: View {
     @State private var timeLeft : String = "00:00";
     
     @State private var isPastMaxTime : Bool = false;
+    
+    @State private var waterMessagesManager = WaterMessagesManager();
 
     
     
@@ -92,6 +94,9 @@ struct HomeView: View {
                             .rotationEffect(Angle(degrees:-5))
                     }
                     
+                    if let message = waterMessagesManager?.getWaterMessage(forLiters: showerData.litersConsumed) {
+                        Text(message)
+                    }
                     
 
                 } else {
@@ -118,6 +123,12 @@ struct HomeView: View {
         
         
     } // end of the view's body
+    
+    
+    
+    
+    
+    
     
     
     func isPaused() -> Bool {
@@ -159,6 +170,12 @@ struct HomeView: View {
     
     
     
+    
+    
+    
+    /// Updates the variables so that they show the time passed so far.
+    ///
+    /// this function is ran (possibly) once every second
     func updateTimerAndData() {
         guard isStarted else { return }
         

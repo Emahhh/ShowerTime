@@ -1,0 +1,14 @@
+{
+  "messages": [
+    {
+      "text": "That's enough water for * ants to drink for their whole lives!",
+      "divideBy": 3,
+      "minLiters": 2
+    },
+    {
+      "text": "That's enough water to grow * kilograms of fresh vegetables1",
+      "divideBy": 5,
+      "minLiters": 1
+    },
+    ]
+}
