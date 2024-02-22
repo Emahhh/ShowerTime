@@ -46,9 +46,10 @@ struct SettingsView: View {
                 Divider()
                 
                 
+                // TODO: disattiva quando una doccia è in corso
                 Stepper(value: mySettings.$maxShowerTime, in: 4...15, step: 1) {
-                                   Text("Max Shower Time: \(mySettings.maxShowerTime) minutes")
-                               }
+                    Text("Max Shower Time: \(mySettings.maxShowerTime) minutes")
+                }
                                
                 Picker("Liters Per Minute", selection: mySettings.$litersPerMinute) {
                     Text("8 (very efficient)").tag(8)
