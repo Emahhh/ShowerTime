@@ -13,10 +13,10 @@ struct StatsView: View {
             VStack{
                 Text("Hello, Stats!")
                 VStack {
-                    Text("You won \(UserStats.totalTimesWon) times so far.")
-                    Text("Consumed an average of \(UserStats.averageLitersConsumed) L.")
-                    Text("Saved \(UserStats.totalLitersSaved) L.")
-                    Text("On a streak of \(UserStats.streak) days.")
+                    Text("You won \(myUserStats.totalTimesWon) times so far.")
+                    Text("Consumed an average of \(myUserStats.averageLitersConsumed) L.")
+                    Text("Saved \(myUserStats.totalLitersSaved) L.")
+                    Text("On a streak of \(myUserStats.streak) days.")
 
                 }
             }.id(refreshCount)
