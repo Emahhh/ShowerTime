@@ -4,7 +4,7 @@ import Combine
 struct HomeView: View {
 
     @State var showerData = ShowerData();
-    @State private var mySettings: ShowerSettings = ShowerSettings();
+
     
     @State private var isStarted: Bool = false;
     
@@ -18,6 +18,11 @@ struct HomeView: View {
     
     @State private var showEndAlert : Bool = false;
     @State private var alertMessage : String = "";
+    
+    
+    // singleton instance
+    @ObservedObject var mySettings = ShowerSettingsManager.shared;
+    @ObservedObject var myUserStats = UserStats.shared;
     
     
     

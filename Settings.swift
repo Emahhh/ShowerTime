@@ -1,7 +1,18 @@
-import SwiftUI
+import SwiftUI;
 
-struct ShowerSettings {
-    @AppStorage("MaxShowerTime") var maxShowerTime: Int = 15
-    @AppStorage("LitersPerMinute") var litersPerMinute: Int = 10
-    @AppStorage("GracePeriod") var gracePeriod: Int = 5
+class ShowerSettingsManager: ObservableObject {
+    /// Singleton instance
+    static let shared = ShowerSettingsManager()
+    private init() {}
+
+    @AppStorage("maxShowerTime") var maxShowerTime: Int = 15
+    @AppStorage("litersPerMinute") var litersPerMinute: Int = 10
+    @AppStorage("gracePeriod") var gracePeriod: Int = 5
+
+    // Reset settings function
+    func resetSettings() {
+        maxShowerTime = 10
+        litersPerMinute = 8
+        gracePeriod = 4
+    }
 }

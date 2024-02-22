@@ -2,8 +2,8 @@ import SwiftUI
 
 struct StatsView: View {
     
-    @State private var refreshCount = 0
-    
+
+    @ObservedObject var myStats = UserStats.shared;
     
     var body: some View {
         ZStack {
@@ -13,19 +13,17 @@ struct StatsView: View {
             VStack{
                 Text("Hello, Stats!")
                 VStack {
-                    Text("You won \(myUserStats.totalTimesWon) times so far.")
-                    Text("Consumed an average of \(myUserStats.averageLitersConsumed) L.")
-                    Text("Saved \(myUserStats.totalLitersSaved) L.")
-                    Text("On a streak of \(myUserStats.streak) days.")
+                    Text("You won \(myStats.totalTimesWon) times so far.")
+                    Text("Consumed an average of \(myStats.averageLitersConsumed) L.")
+                    Text("Saved \(myStats.totalLitersSaved) L.")
+                    Text("On a streak of \(myStats.streak) days.")
 
                 }
-            }.id(refreshCount)
+            }
             
             
         }
-        .onAppear {
-            refreshCount += 1
-        }
+
     }
 }
 

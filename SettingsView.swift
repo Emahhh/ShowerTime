@@ -8,16 +8,43 @@
 import SwiftUI
 
 struct SettingsView: View {
+    
+    @ObservedObject var mySettings = ShowerSettingsManager.shared;
+    @ObservedObject var myStats = UserStats.shared;
+    
     var body: some View {
         ZStack {
             Color.appBackground
                 .edgesIgnoringSafeArea(.all)
             
-            Text("Hello, Settings!")
+            
+            VStack{
+                Text("Hello, Settings!")
+                Button("Reset statistics") {
+                    myStats.resetStats();
+                }
+                Button("Reset settings") {
+                    mySettings.resetSettings();
+                }
+                
+                Text(
+                    """
+                    
+                    Here is a preview of the settings:
+                    Max shower time: \(mySettings.maxShowerTime)
+                    Liters per minute: \(mySettings.litersPerMinute)
+                    Grace period: \(mySettings.gracePeriod)
+                    """
+                )
+
+            }
+            
             
         }
     }
 }
+
+
 
 #Preview {
     SettingsView()
