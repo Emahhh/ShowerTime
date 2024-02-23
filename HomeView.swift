@@ -93,21 +93,29 @@ struct HomeView: View {
                     }
                     
                     
-                    HStack {
-                        Text("\(timeSoFar)")
-                        Text("- \(timeLeft)") // TODO: non mostrare valori negativi quando finito tempo
-                    }
-                    .padding()
+
                     
                     
                     if isPastMaxTime {
                         // TODO: animazioni e suoni
-                        Text("OOOOO stop!!!")
+                        Text("Time to end your shower!")
                             .font(.largeTitle)
                             .fontWeight(.black)
-                            .rotationEffect(Angle(degrees:-5))
-                    
+                        
+                        // time left before you lose your streak
+                        let timeLeft : Int = mySettings.maxShowerTime + mySettings.gracePeriod - showerData.showerDuration;
+                        
+                        if timeLeft > 0 {
+                            Text("End your shower in \(timeLeft) seconds to not lose your streak!")
+                        }
+                        
             
+                    } else {
+                        HStack {
+                            // Text("\(timeSoFar)")
+                            Text("\(timeLeft)")
+                        }
+                        .padding()
                     }
                     
                     if let message = waterMessagesManager?.getWaterMessage(forLiters: showerData.litersConsumed) {
@@ -246,7 +254,7 @@ struct HomeView: View {
         let remainingTime : Int = mySettings.maxShowerTime - showerData.showerDuration;
         let minutesLeft = Int(remainingTime) / 60
         let secondsLeft = Int(remainingTime) % 60
-        timeLeft = String(format: "%02d:%02d left", minutesLeft, secondsLeft)
+        timeLeft = String(format: "%02d:%02d", minutesLeft, secondsLeft)
     
     
         // Check if the maximum shower time is reached

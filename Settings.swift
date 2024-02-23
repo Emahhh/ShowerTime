@@ -14,6 +14,8 @@ class ShowerSettingsManager: ObservableObject {
         // TODO: put the real default vaues as in the UI
         maxShowerTime = 10
         litersPerMinute = 8
-        gracePeriod = 4
+        
+        /// some additional seconds to give the user time to press "end", even if the time has run out
+        gracePeriod = 30
     }
 }
