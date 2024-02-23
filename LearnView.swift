@@ -3,7 +3,11 @@ import SwiftUI
 
 struct LearnView: View {
     var body: some View {
-        TikTokContentView()
+        
+        ZStack{
+            TikTokContentView()
+            // TODO: add "scroll!!!"
+        }
     }
 }
 
@@ -17,7 +21,7 @@ struct ContentView_Previews: PreviewProvider {
 
 
 struct TikTokContentView: View {
-    let pagesCount : Int = 3;
+    let pagesCount : Int = 4;
     @State private var currentPage = 0
 
     var body: some View {
@@ -27,10 +31,12 @@ struct TikTokContentView: View {
                     Text("Page \(index)")
                     switch index {
                     case 0:
-                        Page1View()
+                        Page0View()
                     case 1:
-                        Page2View()
+                        Page1View()
                     case 2:
+                        Page2View()
+                    case 3:
                         Page3View()
                     default:
                         ErrorPageView()
@@ -46,7 +52,9 @@ struct TikTokContentView: View {
 struct QuizCardView: View {
     var question: String
     var options: [String]
+    var correctOption: String
     @State private var selectedOption: String?
+    @State private var showFeedback = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -57,6 +65,7 @@ struct QuizCardView: View {
             ForEach(options, id: \.self) { option in
                 Button(action: {
                     selectedOption = option
+                    showFeedback = true
                 }) {
                     HStack {
                         Image(systemName: selectedOption == option ? "checkmark.circle.fill" : "circle")
@@ -65,6 +74,21 @@ struct QuizCardView: View {
                             .foregroundColor(.primary)
                     }
                 }
+                .disabled(showFeedback) // Disable buttons after feedback is shown
+            }
+
+            if showFeedback {
+                Text(feedbackMessage)
+                    .foregroundColor(feedbackColor)
+                    .padding(.top, 10)
+
+                if selectedOption != correctOption {
+                    Button("Try Again", action: {
+                        showFeedback = false
+                        selectedOption = nil
+                    })
+                    .padding(.top, 10)
+                }
             }
         }
         .padding()
@@ -72,6 +96,18 @@ struct QuizCardView: View {
         .cornerRadius(10)
         .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 1))
         .padding()
+    }
+
+    private var feedbackMessage: String {
+        if selectedOption == correctOption {
+            return "Correct!"
+        } else {
+            return "Wrong! Try again."
+        }
+    }
+
+    private var feedbackColor: Color {
+        return selectedOption == correctOption ? .green : .red
     }
 }
 
@@ -128,25 +164,42 @@ struct VerticalPager<Content: View>: View {
 
 
 
-struct Page1View: View {
+struct Page0View: View {
     var body: some View {
         Text("this is a pageeee")
+        Text("Scroll to see more")
+        Image(systemName: "arrowshape.down.fill")
+            .font(.title)
+            .padding(.top, 20)
+    
+    
+    }
+}
+
+struct Page1View: View {
+    var body: some View {
+        QuizCardView(
+            question: "Prova",
+            options: ["prova1", "prova2", "prova3"],
+            correctOption: "prova1"
+        )
     }
 }
 
 struct Page2View: View {
     var body: some View {
-        QuizCardView(
-            question: "Prova",
-            options: ["prova1", "prova2", "prova3"]
-        )
+        Text("Some different text")
+            .font(.largeTitle)
     }
 }
 
 struct Page3View: View {
     var body: some View {
-        Text("Some different text")
-            .font(.largeTitle)
+        QuizCardView(
+            question: "Qual è la capitale dell'Italia?",
+            options: ["Roma", "Pisa", "Poggibonsi"],
+            correctOption: "Roma"
+        )
     }
 }
 
