@@ -100,6 +100,7 @@ struct HomeView: View {
                             .font(.largeTitle)
                             .fontWeight(.black)
                             .rotationEffect(Angle(degrees:-5))
+            
                     }
                     
                     if let message = waterMessagesManager?.getWaterMessage(forLiters: showerData.litersConsumed) {
@@ -242,6 +243,7 @@ struct HomeView: View {
         // Check if the maximum shower time is reached
         if showerData.showerDuration >= mySettings.maxShowerTime {
             isPastMaxTime = true;
+            scheduleNotification()
             // TODO: decide when to notify with sound
         }
     }
