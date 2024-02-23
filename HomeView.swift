@@ -1,5 +1,6 @@
 import SwiftUI
 import Combine
+import AVFoundation
 
 struct HomeView: View {
 
@@ -18,6 +19,10 @@ struct HomeView: View {
     
     @State private var showEndAlert : Bool = false;
     @State private var alertMessage : String = "";
+    
+    private var audioManager = AudioManager();
+    
+
     
     
     // singleton instance
@@ -101,6 +106,7 @@ struct HomeView: View {
                             .font(.largeTitle)
                             .fontWeight(.black)
                             .rotationEffect(Angle(degrees:-5))
+                    
             
                     }
                     
@@ -175,7 +181,7 @@ struct HomeView: View {
         
         
         
-        // TODO: celebrate won or loss in a nice way ----
+        // TODO: celebrate won or loss in a nice way ------
         
         // Show alert to celebrate win or loss
         alertMessage = showerData.won ? "Congratulations! You saved water!" : "Oops! You exceeded the allowed shower time. :(\n";
@@ -245,13 +251,63 @@ struct HomeView: View {
         if showerData.showerDuration >= mySettings.maxShowerTime {
             isPastMaxTime = true;
             scheduleNotification()
-            // TODO: decide when to notify with sound
+            // TODO: decide when to notify with sound: in anticipo o esattamente?
+            audioManager.playSound()
         }
     }
     
     
+    
+
+
+    
+    
 
 }
+
+
+
+
+
+
+class AudioManager {
+    
+    private var player: AVAudioPlayer?
+    private var lastPlayTime: Date
+    
+    init() {
+        lastPlayTime = Date.distantPast
+    }
+
+    /// Plays the sound only if it hasn't been played recently (in the last `interval` seconds)
+    func playSound(interval: TimeInterval = 30) {
+        guard let url = Bundle.main.url(forResource: "tyla_water", withExtension: "mp3") else {
+            print("Error: unable to find file")
+            return
+        }
+
+        // Check if enough time has passed since the last play
+        guard Date().timeIntervalSince(lastPlayTime) >= interval else {
+            print("Audio played recently. Ignoring.")
+            return
+        }
+
+        do {
+            player = try AVAudioPlayer(contentsOf: url)
+            guard let player = player else {
+                print("Error: unable to create player")
+                return
+            }
+            player.play()
+            lastPlayTime = Date()
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+}
+
+
+
 
 
 struct HomeView_Previews: PreviewProvider {
