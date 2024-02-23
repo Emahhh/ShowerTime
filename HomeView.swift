@@ -96,6 +96,7 @@ struct HomeView: View {
                     
                     
                     if isPastMaxTime {
+                        // TODO: animazioni e suoni
                         Text("OOOOO stop!!!")
                             .font(.largeTitle)
                             .fontWeight(.black)
