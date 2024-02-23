@@ -20,7 +20,7 @@ struct HomeView: View {
     @State private var showEndAlert : Bool = false;
     @State private var alertMessage : String = "";
     
-    private var audioManager = AudioManager();
+    @State private var audioManager = AudioManager();
     
 
     
@@ -193,9 +193,9 @@ struct HomeView: View {
         // TODO: celebrate won or loss in a nice way ------
         
         // Show alert to celebrate win or loss
-        alertMessage = showerData.won ? "Congratulations! You saved water!" : "Oops! You exceeded the allowed shower time. :(\n";
+        alertMessage = showerData.won ? "Congratulations! You saved water!" : "Oops! You exceeded the time. :(\n";
         
-        alertMessage += " You won \(myUserStats.totalTimesWon) times so far, consumed an avaerage of \(myUserStats.averageLitersConsumed) L, and saved \(myUserStats.totalLitersSaved) L.";
+        // alertMessage += " You won \(myUserStats.totalTimesWon) times so far, consumed an avaerage of \(myUserStats.averageLitersConsumed) L, and saved \(myUserStats.totalLitersSaved) L.";
         
         showEndAlert = true;
         //TODO: confetti animation
@@ -203,6 +203,7 @@ struct HomeView: View {
         
         // reset showerData and pause tracker ------
         showerData = ShowerData(); // resets
+        audioManager = AudioManager();
         currentPauseStartTimestamp = nil;
         totalPausedTime = 0;
         isPastMaxTime = false;
@@ -260,7 +261,6 @@ struct HomeView: View {
         // Check if the maximum shower time is reached
         if showerData.showerDuration >= mySettings.maxShowerTime {
             isPastMaxTime = true;
-            scheduleNotification()
             // TODO: decide when to notify with sound: in anticipo o esattamente?
             audioManager.playSound()
         }

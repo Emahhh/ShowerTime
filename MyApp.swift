@@ -3,7 +3,9 @@ import SwiftUI
 
 @main
 struct MyApp: App {
-    // Request notification authorization in the init method
+    @StateObject private var notificationDelegate = NotificationDelegate()
+
+    
      init() {
          requestNotificationAuthorization()
      }
@@ -11,8 +13,18 @@ struct MyApp: App {
      var body: some Scene {
          WindowGroup {
              ContentView()
+                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                                    // App is about to enter foreground
+                                    notificationDelegate.cancelNotification()
+                                }
+                                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
+                                    // App entered background
+                                    notificationDelegate.scheduleNotification()
+                                }
          }
      }
+    
+    
 
      // Function to request notification authorization
      private func requestNotificationAuthorization() {
