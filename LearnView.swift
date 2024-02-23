@@ -21,39 +21,35 @@ struct ContentView_Previews: PreviewProvider {
 
 
 struct TikTokContentView: View {
-    let pagesCount : Int = 4;
     @State private var currentPage = 0
+    
+    let pageContentViews: [AnyView] = [
+        AnyView(Page0View()),
+        AnyView(Page1View()),
+        AnyView(Page2View()),
+        AnyView(Page3View()),
+        AnyView(Page4View())
+    ]
 
     var body: some View {
-        VerticalPager(pageCount: pagesCount, currentIndex: $currentPage) {
-            ForEach(0..<pagesCount) { index in
-                VStack{
-                    Text("Page \(index)")
-                    switch index {
-                    case 0:
-                        Page0View()
-                    case 1:
-                        Page1View()
-                    case 2:
-                        Page2View()
-                    case 3:
-                        Page3View()
-                    default:
-                        ErrorPageView()
+            VerticalPager(pageCount: pageContentViews.count, currentIndex: $currentPage) {
+                ForEach(0..<pageContentViews.count) { index in
+                    VStack{
+                        pageContentViews[index]
                     }
                 }
             }
         }
-
-    }
 }
+
+
 
 
 struct QuizCardView: View {
     var question: String
     var options: [String]
-    var correctOption: String
-    @State private var selectedOption: String?
+    var correctOptionIndex: Int
+    @State private var selectedOptionIndex: Int?
     @State private var showFeedback = false
 
     var body: some View {
@@ -62,33 +58,25 @@ struct QuizCardView: View {
                 .font(.headline)
                 .padding(.bottom, 5)
 
-            ForEach(options, id: \.self) { option in
+            ForEach(options.indices, id: \.self) { index in
                 Button(action: {
-                    selectedOption = option
+                    selectedOptionIndex = index
                     showFeedback = true
                 }) {
                     HStack {
-                        Image(systemName: selectedOption == option ? "checkmark.circle.fill" : "circle")
-                            .foregroundColor(selectedOption == option ? .green : .primary)
-                        Text(option)
+                        Image(systemName: imageForOption(index: index))
+                            .foregroundColor(colorForOption(index: index))
+                        Text(options[index])
                             .foregroundColor(.primary)
                     }
                 }
-                .disabled(showFeedback) // Disable buttons after feedback is shown
+                .disabled(showFeedback && index != correctOptionIndex) // Disable buttons after feedback is shown
             }
 
             if showFeedback {
                 Text(feedbackMessage)
                     .foregroundColor(feedbackColor)
                     .padding(.top, 10)
-
-                if selectedOption != correctOption {
-                    Button("Try Again", action: {
-                        showFeedback = false
-                        selectedOption = nil
-                    })
-                    .padding(.top, 10)
-                }
             }
         }
         .padding()
@@ -98,18 +86,38 @@ struct QuizCardView: View {
         .padding()
     }
 
+    private func imageForOption(index: Int) -> String {
+        if showFeedback {
+            if index == correctOptionIndex {
+                return "checkmark.circle.fill"
+            } else if index == selectedOptionIndex {
+                return "xmark.circle.fill"
+            }
+        }
+        return "circle"
+    }
+
+    private func colorForOption(index: Int) -> Color {
+        if showFeedback {
+            return index == correctOptionIndex ? .green : (index == selectedOptionIndex ? .red : .primary)
+        }
+        return .primary
+    }
+
     private var feedbackMessage: String {
-        if selectedOption == correctOption {
-            return "Correct!"
+        if let selectedOptionIndex = selectedOptionIndex {
+            return selectedOptionIndex == correctOptionIndex ? "Correct!" : "Wrong!"
         } else {
-            return "Wrong! Try again."
+            return ""
         }
     }
 
     private var feedbackColor: Color {
-        return selectedOption == correctOption ? .green : .red
+        return selectedOptionIndex == correctOptionIndex ? .green : .red
     }
 }
+
+
 
 
 
@@ -180,8 +188,8 @@ struct Page1View: View {
     var body: some View {
         QuizCardView(
             question: "Prova",
-            options: ["prova1", "prova2", "prova3"],
-            correctOption: "prova1"
+            options: ["prova1", "risposta corretta", "prova3"],
+            correctOptionIndex: 1
         )
     }
 }
@@ -198,7 +206,17 @@ struct Page3View: View {
         QuizCardView(
             question: "Qual è la capitale dell'Italia?",
             options: ["Roma", "Pisa", "Poggibonsi"],
-            correctOption: "Roma"
+            correctOptionIndex: 0
+        )
+    }
+}
+
+struct Page4View: View {
+    var body: some View {
+        QuizCardView(
+            question: "Quanto fa 2+2?",
+            options: ["Un'anatra", "Un cervo", "Un pesce"],
+            correctOptionIndex: 2
         )
     }
 }
