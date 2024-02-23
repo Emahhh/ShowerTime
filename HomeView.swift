@@ -166,6 +166,7 @@ struct HomeView: View {
     
     func endShower() {
         debugPrint("Ending shower!");
+        audioManager.stopSound()
         updateTimerAndData(); // update data one last time
         isStarted = false;
         showerData.endTime = Date();
@@ -201,6 +202,7 @@ struct HomeView: View {
     }
     
     func handlePause() {
+        audioManager.stopSound()
         if let t = currentPauseStartTimestamp {
             totalPausedTime += Int(Date().timeIntervalSince(t));
             currentPauseStartTimestamp = nil;
@@ -303,6 +305,11 @@ class AudioManager {
         } catch let error {
             print(error.localizedDescription)
         }
+    }
+    
+    
+    func stopSound(){
+        player?.stop()
     }
 }
 
