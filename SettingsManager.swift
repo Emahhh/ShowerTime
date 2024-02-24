@@ -6,7 +6,7 @@ class SettingsManager: ObservableObject {
     private init() {}
 
     @AppStorage("maxShowerTime") var maxShowerTime: Int = 15
-    @AppStorage("litersPerMinute") var litersPerMinute: Int = 10
+    @AppStorage("litersPerMinute") var litersPerMinute: Int = 20
     @AppStorage("gracePeriod") var gracePeriod: Int = 5
 
     /// Resets settings to default

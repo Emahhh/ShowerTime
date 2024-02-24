@@ -1,71 +1,58 @@
-//
-//  SettingsView.swift
-//  primo-playground
-//
-//  Created by Emanuele Buonaccorsi on 09/02/24.
-//
-
 import SwiftUI
 
 struct SettingsView: View {
     
-    @ObservedObject var mySettings = SettingsManager.shared;
-    @ObservedObject var myStats = UserStats.shared;
+    @ObservedObject var mySettings = SettingsManager.shared
+    @ObservedObject var myStats = UserStats.shared
     
     var body: some View {
-        ZStack {
-            Color.appBackground
-                .edgesIgnoringSafeArea(.all)
-            
-            
-            VStack{
-                Text("Hello, Settings!")
-
+        NavigationView {
+            Form {
+                Section(header: Text("⏳ Max Shower Time")) {
+                    Stepper(value: $mySettings.maxShowerTime, in: 1...15, step: 1) {
+                        Text("\(mySettings.maxShowerTime) minutes")
+                    }
+                }
                 
-                Text(
-                    """
+                Section(header: Text("🚿 Type of showerhead")) {
+                    Picker("Select Your Showerhead Type", selection: $mySettings.litersPerMinute) {
+                        Text("Inefficient 😵").tag(20)
+                        Text("Efficient 🌿").tag(8)
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
                     
-                    Here is a preview of the settings:
-                    Max shower time: \(mySettings.maxShowerTime)
-                    Liters per minute: \(mySettings.litersPerMinute)
-                    Grace period: \(mySettings.gracePeriod)
-                    """
-                )
-                
-                Divider()
+                    Text("Choose your type of showehead to have a better extimation of how many liters your shower consumes per minute.\nSelect between an inefficient showerhead that uses 20 L/min or an efficient showerhead that uses 8 L/min. If you are not sure, select the inefficient showerhead.")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                        .padding(.horizontal)
+                }
 
+ 
                 
-                Button("Reset statistics") {
-                    myStats.resetStats();
+                Section(header: Text("❌ Reset")) {
+                    Button(action: {
+                        myStats.resetStats()
+                    }) {
+                        Text("Reset Statistics 📈")
+                            .foregroundColor(.red)
+                    }
+                    
+                    Button(action: {
+                        mySettings.resetSettings()
+                    }) {
+                        Text("Reset Settings ⚙️")
+                            .foregroundColor(.red)
+                    }
                 }
-                Button("Reset settings") {
-                    mySettings.resetSettings();
-                }
-                
-                
-                Divider()
-                
-                
-                // TODO: disattiva quando una doccia è in corso
-                Stepper(value: mySettings.$maxShowerTime, in: 4...15, step: 1) {
-                    Text("Max Shower Time: \(mySettings.maxShowerTime) minutes")
-                }
-                               
-                Picker("Select your kind of showerhead", selection: mySettings.$litersPerMinute) {
-                    Text("8 liters per minute (efficient showerhead)").tag(8)
-                    Text("20 liters per minute (inefficient)").tag(20)
-                }
-                               
-
             }
-            
-            
+            .navigationBarTitle("⚙️ Settings")
         }
+        .background(Color.appBackground.edgesIgnoringSafeArea(.all))
     }
 }
 
-
-
-#Preview {
-    SettingsView()
+struct SettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        SettingsView()
+    }
 }
