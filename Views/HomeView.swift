@@ -86,7 +86,7 @@ struct HomeView: View {
             
                     } else {
                         HStack {
-                            Text("\(currShower.timeLeft)")
+                            Text("\(currShower.timeLeftString)")
                         }
                         .padding()
                     }

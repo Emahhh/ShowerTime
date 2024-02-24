@@ -19,7 +19,9 @@ struct MyApp: App {
                                 }
                                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
                                     // App entered background
-                                    notificationDelegate.scheduleNotification()
+                                    if !Shower.shared.isPaused{
+                                        notificationDelegate.scheduleNotification(inSeconds: Shower.shared.secondsLeft);
+                                    }
                                 }
          }
      }

@@ -1,33 +1,33 @@
-import Foundation
-
 import UserNotifications
 
-
 class NotificationDelegate: ObservableObject {
-    /// Schedule a local notification
-    ///
-    /// Note: the notification is delivered only when the app is NOT in the foreground
-    func scheduleNotification() {
-        print("Scheduling notification...");
+    
+    /// Cancels the (only?) scheduled notification
+    func cancelNotification() {
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+    }
+    
+    /// Schedules an "end your shower" notifications that will be fired in `inSeconds` seconds
+    func scheduleNotification(inSeconds: Int) {
+        guard inSeconds > 0 else {
+            print("not sending the notification bc inSeconds <= 0")
+            return
+        }
         
         let content = UNMutableNotificationContent()
         content.title = "Shower Reminder"
-        content.body = "Your shower is approaching its end. Save water!"
-        content.sound = UNNotificationSound.default
+        content.body = "Time to end your shower!"
+        content.sound = UNNotificationSound(named: UNNotificationSoundName("tyla_water.mp3"))
 
-        // Set the trigger for the notification
-        // TODO: trigger it in the right moment (maybe take a timestamp as parameter)
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false) // 1 second
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(inSeconds), repeats: false)
 
-        // Create the request
-        let request = UNNotificationRequest(identifier: "showerReminder", content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier: "showerNotification", content: content, trigger: trigger)
 
-        // Schedule the notification
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-    }
-
-    // Cancel the scheduled notification
-    func cancelNotification() {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["showerReminder"])
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Error scheduling notification: \(error)")
+            }
+        }
+        print("Scheduled a notification that will be fired in \(inSeconds) seconds")
     }
 }

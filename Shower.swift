@@ -10,7 +10,8 @@ class Shower: ObservableObject {
     
     @Published var startTime: Date?
     @Published var endTime: Date?
-    @Published var timeLeft: String = ""
+    @Published var secondsLeft: Int = 0;
+    @Published var timeLeftString: String = ""
     @Published var showerDuration: Int = 0
     @Published var litersConsumed: Int = 0
     @Published var won: Bool = false
@@ -40,6 +41,7 @@ class Shower: ObservableObject {
     func start() {
         startTime = Date()
         isRunning = true;
+        self.update()
     }
     
     func end(){
@@ -59,7 +61,7 @@ class Shower: ObservableObject {
         audioManager.stopSound()
         startTime = nil
         endTime = nil
-        timeLeft = secondsToTimestampString(secs: SettingsManager.shared.maxShowerTime);
+        timeLeftString = secondsToTimestampString(secs: SettingsManager.shared.maxShowerTime);
         showerDuration = 0
         litersConsumed = 0
         won = false
@@ -68,6 +70,7 @@ class Shower: ObservableObject {
         isPaused = false
         currentPauseStartTimestamp = nil
         totalPausedTime = 0
+        secondsLeft = 0;
         // print(self.description)
     }
     
@@ -106,8 +109,8 @@ class Shower: ObservableObject {
     
         
         // Calculate time left
-        let remainingTime: Int = SettingsManager.shared.maxShowerTime - self.showerDuration
-        self.timeLeft = secondsToTimestampString(secs: remainingTime);
+        self.secondsLeft = SettingsManager.shared.maxShowerTime - self.showerDuration
+        self.timeLeftString = secondsToTimestampString(secs: secondsLeft);
         
         // Check if the maximum shower time is reached
         if self.showerDuration >= SettingsManager.shared.maxShowerTime {
