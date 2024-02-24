@@ -84,6 +84,7 @@ class Shower: ObservableObject {
         } else {
             currentPauseStartTimestamp = Date();
         }
+        self.update();
     }
     
     
@@ -168,7 +169,7 @@ class AudioManager {
 
         // Check if enough time has passed since the last play
         guard Date().timeIntervalSince(lastPlayTime) >= interval else {
-            print("Audio played recently. Ignoring.")
+            // print("Audio played recently. Ignoring.")
             return
         }
 
