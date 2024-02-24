@@ -4,7 +4,9 @@ import AVFoundation
 class Shower: ObservableObject {
     static var shared = Shower()
     
-    private init() {}
+    private init() {
+        self.reset()
+    }
     
     @Published var startTime: Date?
     @Published var endTime: Date?
@@ -54,9 +56,10 @@ class Shower: ObservableObject {
     
     func reset() {
         print("resetting")
+        audioManager.stopSound()
         startTime = nil
         endTime = nil
-        timeLeft = "Not started yet"
+        timeLeft = secondsToTimestampString(secs: ShowerSettingsManager.shared.maxShowerTime);
         showerDuration = 0
         litersConsumed = 0
         won = false
@@ -65,7 +68,7 @@ class Shower: ObservableObject {
         isPaused = false
         currentPauseStartTimestamp = nil
         totalPausedTime = 0
-        print(self.description)
+        // print(self.description)
     }
     
     func togglePause(){
@@ -104,9 +107,7 @@ class Shower: ObservableObject {
         
         // Calculate time left
         let remainingTime: Int = ShowerSettingsManager.shared.maxShowerTime - self.showerDuration
-        let minutesLeft = Int(remainingTime) / 60
-        let secondsLeft = Int(remainingTime) % 60
-        self.timeLeft = String(format: "%02d:%02d", minutesLeft, secondsLeft)
+        self.timeLeft = secondsToTimestampString(secs: remainingTime);
         
         // Check if the maximum shower time is reached
         if self.showerDuration >= ShowerSettingsManager.shared.maxShowerTime {
@@ -114,6 +115,13 @@ class Shower: ObservableObject {
             // TODO: decide when to notify with sound: in advance or exactly at max time?
             audioManager.playSound()
         }
+    }
+    
+    /// Converts seconds to a timestamp string of the form "MM:SS"
+    func secondsToTimestampString(secs: Int) -> String{
+        let minutes = Int(secs) / 60
+        let seconds = Int(secs) % 60
+        return String(format: "%02d:%02d", minutes, seconds)
     }
     
     
