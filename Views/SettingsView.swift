@@ -20,11 +20,17 @@ struct SettingsView: View {
                         Text("Efficient 🌿").tag(8)
                     }
                     .pickerStyle(SegmentedPickerStyle())
+                    .padding(4)
                     
-                    Text("Choose your type of showehead to have a better extimation of how many liters your shower consumes per minute.\nSelect between an inefficient showerhead that uses 20 L/min or an efficient showerhead that uses 8 L/min. If you are not sure, select the inefficient showerhead.")
+                    Text("""
+                         Choose your type of showehead to have a better extimation of how many liters your shower consumes per minute.
+                         - An inefficient showerhead uses roughly 20 L/min
+                         - An efficient showerhead uses 8 L/min.
+                         If you are not sure, select the inefficient showerhead.
+                         """)
                         .font(.caption)
                         .foregroundColor(.gray)
-                        .padding(.horizontal)
+                        .padding(1)
                 }
 
  
