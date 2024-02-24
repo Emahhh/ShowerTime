@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
     
-    @ObservedObject var mySettings = ShowerSettingsManager.shared;
+    @ObservedObject var mySettings = SettingsManager.shared;
     @ObservedObject var myStats = UserStats.shared;
     
     var body: some View {

@@ -11,7 +11,7 @@ struct HomeView: View {
     @State private var alertMessage : String = "";
     
     // singleton instances
-    @ObservedObject var mySettings = ShowerSettingsManager.shared;
+    @ObservedObject var mySettings = SettingsManager.shared;
     @ObservedObject var myUserStats = UserStats.shared;
     @ObservedObject var currShower = Shower.shared;
     

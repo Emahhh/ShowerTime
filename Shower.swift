@@ -50,7 +50,7 @@ class Shower: ObservableObject {
         self.update(); // update data one last time
         
         self.endTime = Date();
-        self.won = self.showerDuration <= (ShowerSettingsManager.shared.maxShowerTime + ShowerSettingsManager.shared.gracePeriod);
+        self.won = self.showerDuration <= (SettingsManager.shared.maxShowerTime + SettingsManager.shared.gracePeriod);
     }
     
     
@@ -59,7 +59,7 @@ class Shower: ObservableObject {
         audioManager.stopSound()
         startTime = nil
         endTime = nil
-        timeLeft = secondsToTimestampString(secs: ShowerSettingsManager.shared.maxShowerTime);
+        timeLeft = secondsToTimestampString(secs: SettingsManager.shared.maxShowerTime);
         showerDuration = 0
         litersConsumed = 0
         won = false
@@ -102,15 +102,15 @@ class Shower: ObservableObject {
         self.showerDuration = Int(Date().timeIntervalSince(startTime)) - totalPausedTime
         
         // Calculate liters consumed
-        self.litersConsumed = Int(Double(ShowerSettingsManager.shared.litersPerMinute) * Double(self.showerDuration) / 60)
+        self.litersConsumed = Int(Double(SettingsManager.shared.litersPerMinute) * Double(self.showerDuration) / 60)
     
         
         // Calculate time left
-        let remainingTime: Int = ShowerSettingsManager.shared.maxShowerTime - self.showerDuration
+        let remainingTime: Int = SettingsManager.shared.maxShowerTime - self.showerDuration
         self.timeLeft = secondsToTimestampString(secs: remainingTime);
         
         // Check if the maximum shower time is reached
-        if self.showerDuration >= ShowerSettingsManager.shared.maxShowerTime {
+        if self.showerDuration >= SettingsManager.shared.maxShowerTime {
             self.isPastMaxTime = true
             // TODO: decide when to notify with sound: in advance or exactly at max time?
             audioManager.playSound()

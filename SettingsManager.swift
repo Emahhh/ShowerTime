@@ -1,8 +1,8 @@
 import SwiftUI;
 
-class ShowerSettingsManager: ObservableObject {
+class SettingsManager: ObservableObject {
     /// Singleton instance
-    static let shared = ShowerSettingsManager()
+    static let shared = SettingsManager()
     private init() {}
 
     @AppStorage("maxShowerTime") var maxShowerTime: Int = 15

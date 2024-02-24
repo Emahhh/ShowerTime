@@ -5,6 +5,7 @@ struct WaterMessage: Codable {
     let divideBy: Int
     let minLiters: Int
 }
+
 class WaterMessagesManager {
     private let messages: [WaterMessage]
 
