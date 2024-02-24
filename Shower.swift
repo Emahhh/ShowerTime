@@ -185,6 +185,7 @@ class AudioManager {
     
     func stopSound(){
         player?.stop()
+        lastPlayTime = Date.distantPast
     }
 }
 
