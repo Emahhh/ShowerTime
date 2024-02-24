@@ -10,7 +10,7 @@ struct StatsView: View {
             
             VStack(spacing: 20) {
                 
-                if myStats.averageLitersConsumed > 0 {
+                if myStats.totalShowers > 0 {
                     Text("Your shower stats")
                         .font(.largeTitle)
                         .bold()
@@ -27,7 +27,7 @@ struct StatsView: View {
                     }
                     
                 }else {
-                    Text("Keep using the app to see some stats here!")
+                    Text("Track your first shower to see some stats here!")
                         .font(.title)
                         .bold()
                         .foregroundColor(.primary)
