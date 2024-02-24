@@ -10,6 +10,8 @@ struct HomeView: View {
     @State private var showEndAlert : Bool = false;
     @State private var alertMessage : String = "";
     
+    @State private var isTextVisible = false
+    
     // singleton instances
     @ObservedObject var mySettings = SettingsManager.shared;
     @ObservedObject var myUserStats = UserStats.shared;
@@ -112,22 +114,33 @@ struct HomeView: View {
                     
 
                     
-                    
+                    // if the user ran out of time, show an ultimatum countdown
                     if currShower.isPastMaxTime {
-                        // TODO: animazioni e suoni
-                        Text("Time to end your shower!")
-                            .font(.largeTitle)
-                            .fontWeight(.black)
-                        
-                        // time left before you lose your streak
-                        let timeLeft : Int = mySettings.maxShowerTime + mySettings.gracePeriod - currShower.showerDuration;
-                        
-                        if timeLeft > 0 {
-                            Text("End your shower in \(timeLeft) seconds to not lose your streak!")
+                        VStack {
+                            Text("Time to end your shower!")
+                                .font(.largeTitle)
+                                .fontWeight(.black)
+                                .opacity(isTextVisible ? 1.0 : 0.0) // Initially set to invisible
+                                .onAppear {
+                                    withAnimation(.easeInOut(duration: 0.7)) {
+                                        isTextVisible = true // Trigger the fade-in animation
+                                    }
+                                }
+
+                            let timeLeft: Int = mySettings.maxShowerTime + mySettings.gracePeriod - currShower.showerDuration
+
+                            if timeLeft > 0 {
+                                Text("End your shower in \(timeLeft) seconds to not lose your streak!")
+                                    .opacity(isTextVisible ? 1.0 : 0.0) // Initially set to invisible
+                                    .onAppear {
+                                        withAnimation(.easeInOut(duration: 0.7)) {
+                                            isTextVisible = true // Trigger the fade-in animation
+                                        }
+                                    }
+                            }
                         }
-                        
-            
                     } else {
+                        // if the user still has time left, just show the time left
                         HStack {
                             Text("\(currShower.timeLeftString)")
                         }
