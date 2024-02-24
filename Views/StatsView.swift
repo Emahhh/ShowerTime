@@ -9,20 +9,31 @@ struct StatsView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 20) {
-                Text("Your shower stats")
-                    .font(.largeTitle)
-                    .bold()
-                    .foregroundColor(.primary)
                 
-                GeometryReader { geometry in
-                    VStack {
-                        StatCard(subtitle: "Liters you consume on average per shower", value: "\(myStats.averageLitersConsumed)L on average")
-                        StatCard(subtitle: "Liters you saved overall by using this app", value: "\(myStats.totalLitersSaved)L saved")
-                        StatCard(subtitle: "Times you ended your shower on time", value: "\(myStats.totalTimesWon) wins")
-                        StatCard(subtitle: "Current Streak", value: "Streak of \(myStats.streak)")
+                if myStats.averageLitersConsumed > 0 {
+                    Text("Your shower stats")
+                        .font(.largeTitle)
+                        .bold()
+                        .foregroundColor(.primary)
+                    
+                    GeometryReader { geometry in
+                        VStack {
+                            StatCard(subtitle: "Liters you consume on average per shower", value: "\(myStats.averageLitersConsumed)L on average")
+                            StatCard(subtitle: "Liters you saved overall by using this app", value: "\(myStats.totalLitersSaved)L saved")
+                            StatCard(subtitle: "Times you ended your shower on time", value: "\(myStats.totalTimesWon) wins")
+                            StatCard(subtitle: "Current streak of wins", value: "Streak of \(myStats.streak)")
+                        }
+                        .frame(width: geometry.size.width, height: geometry.size.height)
                     }
-                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    
+                }else {
+                    Text("Keep using the app to see some stats here!")
+                        .font(.title)
+                        .bold()
+                        .foregroundColor(.primary)
+                        .padding()
                 }
+
                 
                 Button(action: {
                     shareChallenge()
