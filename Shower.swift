@@ -1,8 +1,8 @@
 import SwiftUI
 import AVFoundation
 
-class ShowerData: ObservableObject {
-    static var shared = ShowerData()
+class Shower: ObservableObject {
+    static var shared = Shower()
     
     private init() {}
     

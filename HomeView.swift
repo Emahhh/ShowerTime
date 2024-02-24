@@ -13,7 +13,7 @@ struct HomeView: View {
     // singleton instances
     @ObservedObject var mySettings = ShowerSettingsManager.shared;
     @ObservedObject var myUserStats = UserStats.shared;
-    @ObservedObject var showerData = ShowerData.shared;
+    @ObservedObject var currShower = Shower.shared;
     
 
     
@@ -35,7 +35,7 @@ struct HomeView: View {
                         .shadow(radius: 10)
                         .foregroundColor(Color.white.opacity(0.5))
                     
-                    Text("\(showerData.litersConsumed) L")
+                    Text("\(currShower.litersConsumed) L")
                         .font(.largeTitle)
                         .fontWeight(.black)
                         .shadow(radius: 10)
@@ -48,7 +48,7 @@ struct HomeView: View {
                 
                 
                 // Show "End Shower" button only if the timer is active
-                if showerData.isRunning {
+                if currShower.isRunning {
                     
                     
                     Button("End Shower") {
@@ -57,11 +57,11 @@ struct HomeView: View {
                     .padding()
                     
                     
-                    Button(action: showerData.togglePause) {
-                        Text(showerData.isPaused ? "Resume" : "Pause")
+                    Button(action: currShower.togglePause) {
+                        Text(currShower.isPaused ? "Resume" : "Pause")
                                         .font(.title)
                                         .padding()
-                                        .background(showerData.isPaused ? Color.green : Color.red)
+                                        .background(currShower.isPaused ? Color.green : Color.red)
                                         .foregroundColor(.white)
                                         .cornerRadius(10)
                     }
@@ -70,14 +70,14 @@ struct HomeView: View {
 
                     
                     
-                    if showerData.isPastMaxTime {
+                    if currShower.isPastMaxTime {
                         // TODO: animazioni e suoni
                         Text("Time to end your shower!")
                             .font(.largeTitle)
                             .fontWeight(.black)
                         
                         // time left before you lose your streak
-                        let timeLeft : Int = mySettings.maxShowerTime + mySettings.gracePeriod - showerData.showerDuration;
+                        let timeLeft : Int = mySettings.maxShowerTime + mySettings.gracePeriod - currShower.showerDuration;
                         
                         if timeLeft > 0 {
                             Text("End your shower in \(timeLeft) seconds to not lose your streak!")
@@ -86,12 +86,12 @@ struct HomeView: View {
             
                     } else {
                         HStack {
-                            Text("\(showerData.timeLeft)")
+                            Text("\(currShower.timeLeft)")
                         }
                         .padding()
                     }
                     
-                    if let message = waterMessagesManager?.getWaterMessage(forLiters: showerData.litersConsumed) {
+                    if let message = waterMessagesManager?.getWaterMessage(forLiters: currShower.litersConsumed) {
                         Text(message)
                     }
                     
@@ -99,7 +99,7 @@ struct HomeView: View {
                 } else {
                     // Show "Start Shower" button only if the timer hasn't started
                     Button("Start Shower") {
-                        showerData.start()
+                        currShower.start()
                     }
                     .padding()
                 }
@@ -114,7 +114,7 @@ struct HomeView: View {
         .onReceive(timerPublisher) { _ in
             // when I recieve an event from the timer
             // I update the timer values (every 1 second)
-            showerData.update()
+            currShower.update()
         }
         .alert(isPresented: $showEndAlert) {
             Alert(title: Text("Shower Result"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
@@ -132,24 +132,24 @@ struct HomeView: View {
     
     
     func endShower() {
-        showerData.update()
-        showerData.end();
+        currShower.update()
+        currShower.end();
         
         // TODO: save the shower data
         myUserStats.saveNewShower(
-            isWon: showerData.won,
-            litersConsumed: showerData.litersConsumed,
+            isWon: currShower.won,
+            litersConsumed: currShower.litersConsumed,
             litersSaved: 1 // TODO: calculate extimation liters saved
         );
 
         // TODO: celebrate won or loss in a nice way
         // Show alert to celebrate win or loss
-        alertMessage = showerData.won ? "Congratulations! You saved water!" : "Oops! You exceeded the time. :(\n";
+        alertMessage = currShower.won ? "Congratulations! You saved water!" : "Oops! You exceeded the time. :(\n";
         showEndAlert = true;
         //TODO: confetti animation
         
-        showerData.reset()
-        showerData.update()
+        currShower.reset()
+        currShower.update()
     }
         
     
