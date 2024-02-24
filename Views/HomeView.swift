@@ -130,7 +130,7 @@ struct HomeView: View {
                             let timeLeft: Int = mySettings.maxShowerTime + mySettings.gracePeriod - currShower.showerDuration
 
                             if timeLeft > 0 {
-                                Text("End your shower in \(timeLeft) seconds to not lose your streak!")
+                                Text("End in \(timeLeft) seconds to keep your streak going!")
                                     .opacity(isTextVisible ? 1.0 : 0.0) // Initially set to invisible
                                     .onAppear {
                                         withAnimation(.easeInOut(duration: 0.7)) {
@@ -186,6 +186,8 @@ struct HomeView: View {
     func endShower() {
         currShower.update()
         currShower.end();
+        
+        isTextVisible = false
         
         // TODO: save the shower data
         myUserStats.saveNewShower(
