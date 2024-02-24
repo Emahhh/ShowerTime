@@ -35,10 +35,41 @@ struct HomeView: View {
                         .shadow(radius: 10)
                         .foregroundColor(Color.white.opacity(0.5))
                     
-                    Text("\(currShower.litersConsumed) L")
-                        .font(.largeTitle)
-                        .fontWeight(.black)
-                        .shadow(radius: 10)
+                    VStack{
+                        if !currShower.isRunning { // Show "Start Shower" button only if the timer hasn't started
+                            
+                            Button(action: {
+                                withAnimation {
+                                    currShower.start()
+                                }
+                            }) {
+                                Image(systemName: "play.fill")
+                                    .font(.system(size: 60))
+                                    .foregroundColor(.white)
+                                    .padding()
+                            }
+                            .buttonStyle(DefaultButtonStyle())
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(80)
+                            .shadow(radius: 7)
+
+
+                            
+                            Text("Start Shower")
+                                .bold()
+                                
+                        } else { // when the user has already pressed "start"...
+                            
+                            Text("\(currShower.litersConsumed) L")
+                                .font(.largeTitle)
+                                .fontWeight(.black)
+                                .shadow(radius: 10)
+                        }
+                    }
+                    
+                    
                 }
                 .background(
                     Color.white
@@ -47,23 +78,35 @@ struct HomeView: View {
                 )
                 
                 
-                // Show "End Shower" button only if the timer is active
+                // if the user has already pressed "start"...
                 if currShower.isRunning {
                     
+                    HStack(spacing: 60) {
+                        
+                        // pause / play button
+                        Button(action: currShower.togglePause) {
+                            Image(systemName: currShower.isPaused ? "play.fill" : "pause.fill")
+                                .padding(15)
+                                .background(currShower.isPaused ? Color.green : Color.red)
+                                .foregroundColor(.white)
+                                .clipShape(Circle())
+                                .cornerRadius(80)
+                        }
                     
-                    Button("End Shower") {
-                        endShower()
-                    }
-                    .padding()
-                    
-                    
-                    Button(action: currShower.togglePause) {
-                        Text(currShower.isPaused ? "Resume" : "Pause")
-                                        .font(.title)
-                                        .padding()
-                                        .background(currShower.isPaused ? Color.green : Color.red)
-                                        .foregroundColor(.white)
-                                        .cornerRadius(10)
+                        
+                        Button(action: {
+                            withAnimation {
+                                endShower()
+                            }
+                        }) {
+                            Text("END")
+                                .bold()
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Color.red)
+                                .cornerRadius(10)
+                        }
+                        
                     }
                     
                     
@@ -91,17 +134,13 @@ struct HomeView: View {
                         .padding()
                     }
                     
+                    
+                    // Water messages ("that's enough water to...")
                     if let message = waterMessagesManager?.getWaterMessage(forLiters: currShower.litersConsumed) {
                         Text(message)
                     }
                     
 
-                } else {
-                    // Show "Start Shower" button only if the timer hasn't started
-                    Button("Start Shower") {
-                        currShower.start()
-                    }
-                    .padding()
                 }
 
                 
@@ -152,10 +191,6 @@ struct HomeView: View {
         currShower.update()
     }
         
-    
-    
-
-
     
     
 
