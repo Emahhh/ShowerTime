@@ -97,7 +97,8 @@ struct HomeView: View {
                     VStack{
                         Spacer()
                         Spacer()
-                        Text("End your shower in \(Text("\(mySettings.maxShowerTime / 60)").bold()) minutes to win!")
+                        Text("End your shower in \(Text("\(mySettings.maxShowerTime / 60)").bold()) minutes\nto win and save water!")
+                            .multilineTextAlignment(.center)
                         Spacer()
                     }
                 }
