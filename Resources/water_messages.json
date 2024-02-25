@@ -1,14 +1,44 @@
 {
-  "messages": [
-    {
-      "text": "That's enough water for * ants to drink for their whole lives!",
-      "divideBy": 3,
-      "minLiters": 6
-    },
-    {
-      "text": "That's enough water to grow * kg of fresh vegetables!",
-      "divideBy": 5,
-      "minLiters": 5
-    },
-    ]
+   "messages":[
+      {
+         "text":"That’s enough water to flush a toilet * times!",
+         "divideBy":6,
+         "minLiters":6
+      },
+      {
+         "text":"That’s enough water to make * cups of coffee!",
+         "divideBy":0.25,
+         "minLiters":0.25
+      },
+      {
+         "text":"That’s enough water to brush your teeth * times!",
+         "divideBy":0.5,
+         "minLiters":0.5
+      },
+      {
+         "text":"That’s enough water to make * ice cubes!",
+         "divideBy":0.015,
+         "minLiters":0.015
+      },
+      {
+         "text":"That’s enough water to fill * balloons!",
+         "divideBy":0.5,
+         "minLiters":0.5
+      },
+      {
+         "text":"That’s enough water to water * houseplants!",
+         "divideBy":0.25,
+         "minLiters":0.25
+      },
+      {
+         "text":"That’s enough water to boil * eggs!",
+         "divideBy":0.2,
+         "minLiters":0.2
+      },
+      {
+         "text":"That’s enough water to brew * pots of tea!",
+         "divideBy":1.5,
+         "minLiters":1.5
+      }
+   ]
 }

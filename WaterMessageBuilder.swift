@@ -2,8 +2,8 @@ import Foundation
 
 struct WaterMessage: Codable {
     let text: String
-    let divideBy: Int
-    let minLiters: Int
+    let divideBy: Double
+    let minLiters: Double
 }
 
 class WaterMessagesManager {
@@ -30,13 +30,17 @@ class WaterMessagesManager {
     ///
     /// It doesnt pick a certain message if forLiters is less than minLiters
     func getWaterMessage(forLiters liters: Int) -> String? {
-        let filteredMessages = messages.filter { $0.minLiters <= liters }
+        guard liters > 0 else { return nil }
+        
+        let filteredMessages = messages.filter { Int($0.minLiters) <= liters }
         
         guard !filteredMessages.isEmpty else { return nil }
         
         let randomIndex = Int(arc4random_uniform(UInt32(filteredMessages.count)))
         let message = filteredMessages[randomIndex]
-        let result = liters / message.divideBy
+        let result : Int = Int(Double(liters) / message.divideBy)
+        
+        guard result > 0 else { return nil }
         
         return message.text.replacingOccurrences(of: "*", with: "\(result)")
     }
