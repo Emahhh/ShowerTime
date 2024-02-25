@@ -14,6 +14,7 @@ struct MascotView: View {
                 Image(withPicture) // Display the current emotion PNG
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .shadow(radius: 4)
                     .frame(width: 90, height: 90)
 
                 ZStack {

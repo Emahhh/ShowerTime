@@ -150,6 +150,7 @@ struct HomeView: View {
                         withPicture: currShower.mascotPic,
                         withText: currShower.mascotMsg
                     )
+                    .padding(.bottom, 16.0)
                 } // end of mascotte's vstack
 
                 // MARK: - Streak on the top-right corner

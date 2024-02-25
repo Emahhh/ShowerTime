@@ -133,7 +133,7 @@ class Shower: ObservableObject {
         
         
         
-        
+        mascotMsg = ""
         
         // if the user ran out of time, show an ultimatum countdown
         if self.isPastMaxTime {
