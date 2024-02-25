@@ -92,10 +92,11 @@ struct HomeView: View {
                         Button(action: currShower.togglePause) {
                             Image(systemName: currShower.isPaused ? "play.fill" : "pause.fill")
                                 .padding(15)
-                                .background(currShower.isPaused ? Color.green : Color.red)
+                                .background(currShower.isPaused ? Color.blue : Color.gray)
                                 .foregroundColor(.white)
                                 .clipShape(Circle())
-                                .cornerRadius(80)
+                                .cornerRadius(40)
+                                .shadow(color: .gray, radius: 3, x: 0, y: 2)
                         }
                     
                         
@@ -108,8 +109,11 @@ struct HomeView: View {
                                 .bold()
                                 .foregroundColor(.white)
                                 .padding()
-                                .background(Color.red)
-                                .cornerRadius(10)
+                                .background(
+                                    LinearGradient(gradient: Gradient(colors: [Color.red, Color.orange]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                                )
+                                .cornerRadius(30)
+                                .shadow(color: .gray, radius: 4, x: 0, y: 2)
                         }
                         
                     }
