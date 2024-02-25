@@ -18,6 +18,8 @@ class Shower: ObservableObject {
     @Published var isPastMaxTime: Bool = false
     @Published var mascotMsg = ""
     @Published var mascotPic = "greeting"
+    @Published var mascotEnoughTo = ""
+    
     @State private var waterMessagesManager = WaterMessagesManager()
 
     /// true from start to end.
@@ -137,19 +139,25 @@ class Shower: ObservableObject {
         
         // if the user ran out of time, show an ultimatum countdown
         if self.isPastMaxTime {
-            mascotPic = "greeting" //TODO: cambia in sad
+            mascotPic = "crying"
+            mascotEnoughTo = ""
             
             let timeLeft: Int = SettingsManager.shared.maxShowerTime + SettingsManager.shared.gracePeriod - self.showerDuration
             mascotMsg = (timeLeft <= 0) ? "Time to end your shower!" : "End in \(timeLeft) seconds to keep your streak going!"
-            print(mascotMsg)
         }
+        
 
         // Water messages ("that's enough water to...")
-        if let enoughTo = waterMessagesManager?.getWaterMessage(forLiters: self.litersConsumed) {
-            // TODO: hide if too long
-            // TODO: cambia solo ogni tanto
-            mascotMsg += enoughTo
+        if !self.isPastMaxTime && self.secondsLeft % 5 == 0 {
+            mascotPic = ["neutral", "steam", "greeting", "green"][Int.random(in: 0...3)]
+            if let enoughTo = waterMessagesManager?.getWaterMessage(forLiters: self.litersConsumed) {
+                mascotEnoughTo = enoughTo
+            }
+            
         }
+        
+        mascotMsg += mascotEnoughTo
+
 
         
         

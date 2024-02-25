@@ -192,7 +192,7 @@ struct HomeView: View {
             }
         }
         .alert(isPresented: $showEndAlert) {
-            Alert(title: Text("Shower Result"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+            Alert(title: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
         .confettiCannon(counter: $confettiCounter, confettis: [.text("💦"), .text("💙"), .text("💧"), .text("🌿")])
     } // end of the view's body
@@ -227,7 +227,7 @@ struct HomeView: View {
 
         // TODO: celebrate won or loss in a nice way
         // Show alert to celebrate win or loss
-        alertMessage = currShower.won ? "Congratulations! You saved water!" : "Oops! You exceeded the time. :(\n"
+        alertMessage = currShower.won ? "You ended on time and saved water! 🥳" : "You exceeded the time. 😢\nTry to end your shower sooner next time."
         showEndAlert = true
         // TODO: confetti animation
         if currShower.won {
