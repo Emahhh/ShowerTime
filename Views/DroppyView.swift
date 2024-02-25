@@ -14,27 +14,28 @@ struct MascotView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 90, height: 90)
-                .padding(.trailing, 2.0)
 
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color.white)
                     .frame(height: 100)
-                    .shadow(radius: 4) // Add a subtle shadow effect
-                Text(withText)
-                    .lineLimit(4) // Allow unlimited lines
-                    .fixedSize(horizontal: false, vertical: true) // Multiline text
-                    .foregroundColor(.black)
-                    .multilineTextAlignment(.leading)
-                    .padding()
+                    .shadow(radius: 4)
+                    .overlay(
+                        Text(withText)
+                            .lineLimit(4)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .foregroundColor(.black)
+                            .multilineTextAlignment(.leading)
+                            .padding()
+                    )
             }
-            .padding(.leading)
             .multilineTextAlignment(.leading)
         }
         .padding(.trailing, 2.0)
-        .padding(2.0)
+        .padding(8.0)
     }
 }
+
 
 
 
