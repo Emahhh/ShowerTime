@@ -1,9 +1,41 @@
 import Combine
 import SwiftUI
 
+// previews in different states of the timer
 struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
+    // Preview with normal HomeView
+    static var normalPreview: some View {
         HomeView()
+    }
+
+    // Preview where the timer just started
+    static var startedStatePreview: some View {
+        let homeView = HomeView()
+        homeView.previewStartedState()
+        return homeView
+    }
+
+    // Preview where the timer is very late
+    static var startedAndLateStatePreview: some View {
+        let homeView = HomeView()
+        homeView.previewStartedAndLateState()
+        return homeView
+    }
+
+    static var previews: some View {
+        Group {
+            // Normal HomeView preview
+            normalPreview
+                .previewDisplayName("Normal HomeView")
+
+            // Preview with started state
+            startedStatePreview
+                .previewDisplayName("HomeView - Started State")
+
+            // Preview with started and late state
+            startedAndLateStatePreview
+                .previewDisplayName("HomeView - Started and Late State")
+        }
     }
 }
 
@@ -29,12 +61,18 @@ struct HomeView: View {
             Color.appBackground
                 .edgesIgnoringSafeArea(.all)
 
-            VStack {
-                StreakView(streakCount: myUserStats.streak)
+            ZStack {
+                // MARK: - Streak on the top-right corner
 
-                Spacer()
+                VStack {
+                    HStack {
+                        Spacer()
+                        StreakView(streakCount: myUserStats.streak)
+                    }
+                    Spacer()
+                }
 
-                // MARK: - Central square
+                // MARK: - Central square (WaterView)
 
                 WaterView(
                     litersConsumed: currShower.litersConsumed,
@@ -42,46 +80,67 @@ struct HomeView: View {
                     isRunning: currShower.isRunning,
                     onStart: {
                         withAnimation {
-                            currShower.start()
+                            startShower()
                         }
                     }
                 )
+                .padding(.bottom, 150.0)
 
-                // end of the central square
+                // MARK: - VStack containing Buttons
 
-                // MARK: - Buttons
+                VStack {
+                    Spacer()
 
-                // if the user has already pressed "start"...
-                if currShower.isRunning {
-                    HStack(spacing: 60) {
-                        // pause / play button
-                        Button(action: currShower.togglePause) {
-                            Image(systemName: currShower.isPaused ? "play.fill" : "pause.fill")
-                                .padding(15)
-                                .background(currShower.isPaused ? Color.blue : Color.gray)
-                                .foregroundColor(.white)
-                                .clipShape(Circle())
-                                .cornerRadius(40)
-                                .shadow(color: .gray, radius: 3, x: 0, y: 2)
-                        }
+                    // If the user has already pressed "start"...
+                    if currShower.isRunning {
+                        VStack {
+                            // Pause and End Buttons
+                            HStack() {
+                                // Pause / Play button
+                                Button(action: currShower.togglePause) {
+                                    Image(systemName: currShower.isPaused ? "play.fill" : "pause.fill")
+                                        .padding(15)
+                                        .background(currShower.isPaused ? Color.blue : Color.gray)
+                                        .foregroundColor(.white)
+                                        .clipShape(Circle())
+                                        .cornerRadius(40)
+                                        .shadow(color: .gray, radius: 3, x: 0, y: 2)
+                                }
 
-                        Button(action: {
-                            withAnimation {
-                                endShower()
+                                
+                                Text("\(currShower.timeLeftString)")
+                                    .bold()
+                                    .frame(width: 70) // Fixed-width container so that it doesnt move everything
+
+                                // End button
+                                Button(action: {
+                                    withAnimation {
+                                        endShower()
+                                    }
+                                }) {
+                                    Text("END")
+                                        .bold()
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .background(
+                                            LinearGradient(gradient: Gradient(colors: [Color.red, Color.orange]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                                        )
+                                        .cornerRadius(30)
+                                        .shadow(color: .gray, radius: 4, x: 0, y: 2)
+                                }
                             }
-                        }) {
-                            Text("END")
-                                .bold()
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(
-                                    LinearGradient(gradient: Gradient(colors: [Color.red, Color.orange]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                                )
-                                .cornerRadius(30)
-                                .shadow(color: .gray, radius: 4, x: 0, y: 2)
                         }
+                        .padding(.bottom, 150)
                     }
+                }
+                .padding(.bottom, 70)
 
+
+
+                // MARK: - mascotte messages
+
+                VStack {
+                    Spacer()
                     // if the user ran out of time, show an ultimatum countdown
                     if currShower.isPastMaxTime {
                         VStack {
@@ -107,12 +166,6 @@ struct HomeView: View {
                                     }
                             }
                         }
-                    } else {
-                        // if the user still has time left, just show the time left
-                        HStack {
-                            Text("\(currShower.timeLeftString)")
-                        }
-                        .padding()
                     }
 
                     // Water messages ("that's enough water to...")
@@ -120,10 +173,8 @@ struct HomeView: View {
                         Text(message)
                     }
                 }
-
-                Spacer()
-            }
-        } // end of VStack
+            } // end of ZStack containing elements
+        } // end of the first ZStack (containing background)
         .onReceive(timerPublisher) { _ in
             // when I recieve an event from the timer
             // I update the timer values (every 1 second)
@@ -134,6 +185,21 @@ struct HomeView: View {
         }
         .confettiCannon(counter: $confettiCounter, confettis: [.text("💦"), .text("💙"), .text("💧"), .text("🌿")])
     } // end of the view's body
+
+    func previewStartedState() {
+        endShower()
+        startShower()
+    }
+
+    func previewStartedAndLateState() {
+        endShower()
+        startShower()
+        currShower.simulateLate()
+    }
+
+    func startShower() {
+        currShower.start()
+    }
 
     func endShower() {
         currShower.update()

@@ -44,6 +44,11 @@ class Shower: ObservableObject {
         self.update()
     }
     
+    func simulateLate() {
+        startTime = Date() - (60 * 60)
+        self.update()
+    }
+    
     func end(){
         debugPrint("Ending shower!");
         isRunning = false;
@@ -123,6 +128,10 @@ class Shower: ObservableObject {
     
     /// Converts seconds to a timestamp string of the form "MM:SS"
     func secondsToTimestampString(secs: Int) -> String{
+        guard secs > 0 else {
+            return "00:00"
+        }
+        
         let minutes = Int(secs) / 60
         let seconds = Int(secs) % 60
         return String(format: "%02d:%02d", minutes, seconds)
