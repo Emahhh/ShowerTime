@@ -2,6 +2,7 @@ import SwiftUI
 import Combine
 
 
+
 struct HomeView: View {
 
     
@@ -11,6 +12,8 @@ struct HomeView: View {
     @State private var alertMessage : String = "";
     
     @State private var isTextVisible = false
+    
+    @State private var confettiCounter : Int = 0;
     
     // singleton instances
     @ObservedObject var mySettings = SettingsManager.shared;
@@ -171,6 +174,8 @@ struct HomeView: View {
         .alert(isPresented: $showEndAlert) {
             Alert(title: Text("Shower Result"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
+        .confettiCannon(counter: $confettiCounter, confettis: [.text("💦"), .text("💙"), .text("💧"), .text("🌿")])
+               
         
         
         
@@ -201,6 +206,9 @@ struct HomeView: View {
         alertMessage = currShower.won ? "Congratulations! You saved water!" : "Oops! You exceeded the time. :(\n";
         showEndAlert = true;
         //TODO: confetti animation
+        if currShower.won {
+            confettiCounter+=1;
+        }
         
         currShower.reset()
         currShower.update()
