@@ -16,8 +16,8 @@ struct WaterView: View {
                     .frame(width: 250, height: 250)
                     .foregroundColor(.blue)
                     .mask(alignment: Alignment.bottom){
-                        RoundedRectangle(cornerRadius: 50)
-                            .frame(width: 250, height: CGFloat(litersConsumed) / CGFloat(maxLiters) * 250)
+                        RoundedRectangle(cornerRadius: 0)
+                            .frame(width: 250, height: min((CGFloat(litersConsumed) / CGFloat(maxLiters) * 250), 250)    )
                             .foregroundColor(.blue)
                             .opacity(0.7)
                             .animation(.easeInOut)
@@ -112,7 +112,7 @@ struct HomeView: View {
                 // MARK: - Central square
                 WaterView(
                     litersConsumed: currShower.litersConsumed,
-                    maxLiters: mySettings.maxShowerTime * mySettings.litersPerMinute,
+                    maxLiters: mySettings.maxShowerTime/60 * mySettings.litersPerMinute,
                     isRunning: currShower.isRunning,
                     onStart: {
                         withAnimation {

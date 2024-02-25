@@ -12,7 +12,7 @@ class SettingsManager: ObservableObject {
     /// Resets settings to default
     func resetSettings() {
         // TODO: put the real default vaues as in the UI
-        maxShowerTime = 1
+        maxShowerTime = 1*60
         litersPerMinute = 19
         
         /// some additional seconds to give the user time to press "end", even if the time has run out
