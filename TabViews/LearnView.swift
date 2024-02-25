@@ -30,6 +30,7 @@ struct TikTokContentView: View {
         AnyView(Page1View()),
         AnyView(Page2View()),
         AnyView(Page3View()),
+        AnyView(Page4QuizView()),
         AnyView(Page4View()),
         AnyView(Page5View()),
         AnyView(Page6View()),
@@ -106,10 +107,11 @@ struct QuizCardView: View {
                     .padding(.top, 10)
             }
         }
+        .frame(width: 300, height: 200, alignment: .center)
         .padding()
-        .background(Color.white)
+        .background(.ultraThickMaterial)
         .cornerRadius(10)
-        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 1))
+        .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
         .padding()
     }
 
@@ -218,6 +220,52 @@ struct learnColors {
     static let color18 = Color(red: 255/255, green: 255/255, blue: 102/255); // sunflower yellow
     static let color19 = Color(red: 255/255, green: 204/255, blue: 102/255); // orange
 }
+
+
+struct TextCardView: View {
+    var title: String = ""
+    let txtBody: String
+    
+    var body: some View {
+        ZStack {
+            // create a card with a white opaque background
+            RoundedRectangle(cornerRadius: 15, style: .continuous)
+                .fill(.thickMaterial)
+                .shadow(radius: 5) // reduce the shadow radius
+                .frame(width: 350, height: 325) // increase the frame width and height
+            
+            // create a vertical stack for the title and body
+            VStack(alignment: .center) { // use .center for the VStack alignment
+                
+                if !title.isEmpty {
+                    Text(title)
+                        .font(.title2)
+                        .foregroundColor(.black)
+                        .multilineTextAlignment(.leading)
+                }
+
+                
+                // create a text view for the body with a smaller font and gray color
+                Text(txtBody)
+                    .font(.body)
+                    .foregroundColor(.black)
+                    .multilineTextAlignment(.leading)
+                    .minimumScaleFactor(0.8) // reduce the font size if the text is too long
+            }
+            // add some padding and multiline text alignment to the center
+            .padding()
+            .multilineTextAlignment(.center)
+            // use the .frame modifier to center the text within the card
+            .frame(width: 300, height: 200, alignment: .center)
+        }
+        // add some padding around the card
+        .padding(10)
+
+    }
+}
+
+
+
 
 
 
@@ -330,18 +378,48 @@ struct Page3View: View {
                 
                 MascotView(
                     withPicture: "teacher",
-                    withText: "How much water do you use in a shower?"
+                    withText: "Do you know how much water you use in a shower?"
                 )
-                Text("The average shower uses about **15 liters** of water per minute. That means a **10-minute** shower uses **150 liters** of water! That's enough to fill up a large bathtub or three buckets!")
-                    .font(.body)
-                    .padding()
-                    .multilineTextAlignment(.center)
+                // use the TextCardView component to display the information
+                TextCardView(
+                    title: "The average shower uses about 15 liters of water per minute.",
+                    txtBody: "That means a 10-minute shower uses 150 liters of water! That's enough to fill up a large bathtub!"
+                )
             }
         }
         
 
     }
 }
+
+struct Page4QuizView: View {
+    var body: some View {
+        ZStack {
+            LinearGradient(
+                gradient: Gradient(colors: [learnColors.color4, learnColors.color5]),
+                startPoint: .init(x: 0.50, y: 0.00),
+                endPoint: .init(x: 0.50, y: 1.00)
+                    )
+            .edgesIgnoringSafeArea(.all)
+            VStack {
+                // use the MascotView component to display the mascot and the question
+                MascotView(
+                    withPicture: "teacher",
+                    withText: "How much water on earth is available for human consumption?"
+                )
+                // use the QuizCardView component to display the options and the correct answer
+                QuizCardView(
+                    options: ["97%", "50%", "10%", "0.5%"],
+                    correctOptionIndex: 3
+                )
+            }
+        }
+        
+
+    }
+}
+
+
 
 struct Page4View: View {
     var body: some View {
@@ -358,10 +436,11 @@ struct Page4View: View {
                     withPicture: "teacher",
                     withText: "Why is saving water important?"
                 )
-                Text("Water is essential for life on Earth. It supports many ecosystems, agriculture, industry, and human health. However, water is a limited and precious resource. Only about **2.5%** of the water on Earth is fresh, and most of it is frozen in glaciers and ice caps. Therefore, we need to use water wisely and avoid wasting it.")
-                    .font(.body)
-                    .padding()
-                    .multilineTextAlignment(.center)
+                // use the TextCardView component to display the information
+                TextCardView(
+                    title: "Water is essential for life on Earth.",
+                    txtBody: "It supports many ecosystems, agriculture, industry, and human health. However, water is a limited and precious resource. Only about 2.5% of the water on Earth is fresh, and most of it is frozen in glaciers and ice caps. Therefore, we need to use water wisely and avoid wasting it."
+                )
             }
         }
         
@@ -382,18 +461,13 @@ struct Page5View: View {
                 
                 MascotView(
                     withPicture: "teacher",
-                    withText: "What are the benefits of taking shorter showers?"
+                    withText: "What are some other benefits of taking shorter showers?"
                 )
-                Text("Taking shorter showers can help you save water, energy, money, and the environment. Here are some of the benefits:")
-                    .font(.body)
-                    .padding()
-                    .multilineTextAlignment(.center)
-                List {
-                    Text("You can save up to **90 liters** of water per shower if you reduce your shower time by **5 minutes**. That's enough to fill up a large water bottle or a small fish tank!")
-                    Text("You can save up to **15 kWh** of energy per shower if you reduce your shower time by **5 minutes**. That's enough to power a laptop for **10 hours** or a TV for **5 hours**!")
-                    Text("You can save up to **€ 60** per year on your water and energy bills if you reduce your shower time by **5 minutes**. That's enough to buy a new pair of shoes or a nice dinner!")
-                    Text("You can reduce your carbon footprint and greenhouse gas emissions by saving water and energy. This can help mitigate climate change and protect the environment for future generations.")
-                }
+                // use the TextCardView component to display the information
+                TextCardView(
+                    title: "Taking shorter showers reduces your carbon footprint!",
+                    txtBody: "You can save up to 15 kWh of energy per shower if you reduce your shower time by 5 minutes. That means you'll reduce your carbon footprint and greenhouse gas emissions!"
+                )
             }
         }
         
@@ -416,23 +490,19 @@ struct Page6View: View {
                     withPicture: "teacher",
                     withText: "How can you take shorter showers?"
                 )
-                Text("There are many simple and effective ways to reduce your shower time. Here are some tips:")
-                    .font(.body)
-                    .padding()
-                    .multilineTextAlignment(.center)
-                List {
-                    Text("Set a timer or use a stopwatch to keep track of your shower time. You can also use a shower timer app or a water-saving shower head that changes color or makes a sound when you reach a certain time limit.")
-                    Text("Turn off the water while you shampoo, condition, soap, or shave. This can save up to **60 liters** of water per shower.")
-                    Text("Take a shower instead of a bath. A bath can use up to **250 liters** of water, while a shower can use as little as **30 liters**.")
-                    Text("Avoid taking multiple showers a day. If you need to freshen up, you can use a wet towel, a spray bottle, or a sponge instead.")
-                    Text("Challenge yourself and your friends to take shorter showers. You can make it fun by creating a competition, a reward system, or a pledge. You can also share your progress and tips on social media or a blog.")
-                }
+                // use the TextCardView component to display the information
+                TextCardView(
+                    title: "Here are some tips:",
+                    txtBody: "- First of all: continue using this app and try to challenge yourself! \n- Turn off the water while you shampoo, condition, soap, or shave. This can save up to 60 liters of water per shower.\n- Take a shower instead of a bath. A bath can use up to 250 liters of water!"
+                )
             }
         }
         
 
     }
 }
+
+
 
 struct Page7View: View {
     var body: some View {
@@ -447,10 +517,11 @@ struct Page7View: View {
                 
                 MascotView(
                     withPicture: "teacher",
-                    withText: "Let's test your knowledge!"
+                    withText: "Let's test your knowledge! Do you remember how much water does the average shower use per minute?"
                 )
+            
+                // use the QuizCardView component to display the options and the correct answer
                 QuizCardView(
-                    question: "How much water does the average shower use per minute?",
                     options: ["10 liters", "15 liters", "20 liters", "25 liters"],
                     correctOptionIndex: 1
                 )
@@ -473,19 +544,24 @@ struct Page8View: View {
             VStack {
                 
                 MascotView(
-                    withPicture: "teacher",
-                    withText: "Congratulations!"
+                    withPicture: "celebrating",
+                    withText: "Congratulations! 🎉🥳"
                 )
-                Text("You have completed the learning section of the app. You have learned about the importance of saving water, the benefits of taking shorter showers, and some tips to reduce your shower time. You have also tested your knowledge with a quiz. You are now ready to start saving water and making a difference!")
-                    .font(.body)
-                    .padding()
-                    .multilineTextAlignment(.center)
+                // use the TextCardView component to display the message
+                TextCardView(
+                    title: "You have completed the learning section of the app.",
+                    txtBody: "You have learned about the importance of saving water, and how to make it more effective. You have also tested your knowledge with a quiz. You are now ready to start saving water and making a difference!"
+                )
             }
         }
         
 
     }
 }
+
+
+
+
 
 
 

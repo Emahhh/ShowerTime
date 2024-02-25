@@ -19,9 +19,9 @@ struct MascotView: View {
 
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.white)
+                        .fill(.ultraThickMaterial)
                         .frame(height: 100)
-                        .shadow(radius: 4)
+                        .shadow(radius: 5)
                         .overlay(
                             Text(withText)
                                 .lineLimit(4)
