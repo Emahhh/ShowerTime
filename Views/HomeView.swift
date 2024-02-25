@@ -1,6 +1,78 @@
 import SwiftUI
 import Combine
 
+struct WaterView: View {
+    var litersConsumed: Int
+    var maxLiters: Int
+    var isRunning: Bool
+    var onStart: () -> Void
+
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .bottom) {
+
+                // Mask for water level to be visible only inside the white rectangle
+                Rectangle()
+                    .frame(width: 250, height: 250)
+                    .foregroundColor(.blue)
+                    .mask(
+                        Rectangle()
+                            .frame(width: 250, height: CGFloat(litersConsumed) / CGFloat(maxLiters) * 250)
+                            .foregroundColor(.blue)
+                            .animation(.easeInOut)
+                    )
+
+                ZStack {
+                    // White rectangle
+                    RoundedRectangle(cornerRadius: 50)
+                        .frame(width: 250, height: 250)
+                        .shadow(radius: 10)
+                        .foregroundColor(Color.white.opacity(0.5))
+                        .background(
+                            Color.white
+                                .opacity(0.1)
+                                .blur(radius: 100) // TODO: not working
+                        )
+
+                    if !isRunning {
+                        // If no timer is running, display the play button to start it
+                        VStack {
+                            Button(action: onStart) {
+                                Image(systemName: "play.fill")
+                                    .font(.system(size: 60))
+                                    .foregroundColor(.white)
+                                    .padding()
+                            }
+                            .buttonStyle(DefaultButtonStyle())
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(80)
+                            .shadow(radius: 7)
+
+                            Text("Start Shower")
+                                .bold()
+                        }
+                    }
+
+                    // If the timer is running, show a big number with the amount of liters consumed so far
+                    if isRunning {
+                        Text("\(litersConsumed) L")
+                            .font(.largeTitle)
+                            .fontWeight(.black)
+                            .shadow(radius: 10)
+                    }
+                }
+            }
+        }
+        .frame(width: 250, height: 250)
+    }
+}
+
+
+
+
+
 
 
 struct HomeView: View {
@@ -34,55 +106,24 @@ struct HomeView: View {
                 
                 Spacer()
                 
-                ZStack {
-                    RoundedRectangle(cornerRadius: 50)
-                        .frame(width: 250, height: 250)
-                        .shadow(radius: 10)
-                        .foregroundColor(Color.white.opacity(0.5))
-                    
-                    VStack{
-                        if !currShower.isRunning { // Show "Start Shower" button only if the timer hasn't started
-                            
-                            Button(action: {
-                                withAnimation {
-                                    currShower.start()
-                                }
-                            }) {
-                                Image(systemName: "play.fill")
-                                    .font(.system(size: 60))
-                                    .foregroundColor(.white)
-                                    .padding()
-                            }
-                            .buttonStyle(DefaultButtonStyle())
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(80)
-                            .shadow(radius: 7)
-
-
-                            
-                            Text("Start Shower")
-                                .bold()
-                                
-                        } else { // when the user has already pressed "start"...
-                            
-                            Text("\(currShower.litersConsumed) L")
-                                .font(.largeTitle)
-                                .fontWeight(.black)
-                                .shadow(radius: 10)
+                
+                // MARK: - Central square
+                WaterView(
+                    litersConsumed: currShower.litersConsumed,
+                    maxLiters: mySettings.maxShowerTime * mySettings.litersPerMinute,
+                    isRunning: currShower.isRunning,
+                    onStart: {
+                        withAnimation {
+                            currShower.start()
                         }
                     }
-                    
-                    
-                }
-                .background(
-                    Color.white
-                        .opacity(0.1)
-                        .blur(radius: 10)
                 )
+
+                // end of the central square
+
                 
                 
+                // MARK: - Buttons
                 // if the user has already pressed "start"...
                 if currShower.isRunning {
                     
