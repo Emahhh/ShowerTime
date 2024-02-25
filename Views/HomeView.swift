@@ -48,6 +48,8 @@ struct HomeView: View {
     @State private var isTextVisible = false
 
     @State private var confettiCounter: Int = 0
+    @State private var bouncerCount: Int = 0
+    @State var counter: Int = 0
 
     // singleton instances
     @ObservedObject var mySettings = SettingsManager.shared
@@ -82,7 +84,8 @@ struct HomeView: View {
                         withAnimation {
                             startShower()
                         }
-                    }
+                    },
+                    bouncerCount: bouncerCount
                 )
                 .padding(.bottom, 150.0)
 
@@ -95,7 +98,7 @@ struct HomeView: View {
                     if currShower.isRunning {
                         VStack {
                             // Pause and End Buttons
-                            HStack() {
+                            HStack {
                                 // Pause / Play button
                                 Button(action: currShower.togglePause) {
                                     Image(systemName: currShower.isPaused ? "play.fill" : "pause.fill")
@@ -107,7 +110,6 @@ struct HomeView: View {
                                         .shadow(color: .gray, radius: 3, x: 0, y: 2)
                                 }
 
-                                
                                 Text("\(currShower.timeLeftString)")
                                     .bold()
                                     .frame(width: 70) // Fixed-width container so that it doesnt move everything
@@ -135,8 +137,6 @@ struct HomeView: View {
                 }
                 .padding(.bottom, 70)
 
-
-
                 // MARK: - mascotte messages
 
                 VStack {
@@ -145,8 +145,9 @@ struct HomeView: View {
                     if currShower.isPastMaxTime {
                         VStack {
                             Text("Time to end your shower!")
-                                .font(.largeTitle)
-                                .fontWeight(.black)
+                                .font(.title)
+                                .fontWeight(.heavy)
+                                .multilineTextAlignment(.center)
                                 .opacity(isTextVisible ? 1.0 : 0.0) // Initially set to invisible
                                 .onAppear {
                                     withAnimation(.easeInOut(duration: 0.7)) {
@@ -172,13 +173,22 @@ struct HomeView: View {
                     if let message = waterMessagesManager?.getWaterMessage(forLiters: currShower.litersConsumed) {
                         Text(message)
                     }
-                }
+                } // end of mascotte's vstack
+                .padding(.all)
+                .padding(.bottom, 25)
             } // end of ZStack containing elements
         } // end of the first ZStack (containing background)
         .onReceive(timerPublisher) { _ in
-            // when I recieve an event from the timer
-            // I update the timer values (every 1 second)
+            // when I recieve an event from the timer (every 1 second, possibly)
+
+            // I update the shower values
             currShower.update()
+
+            // Increment bouncerCount once every 3 times
+            counter += 1
+            if counter % 3 == 0 {
+                bouncerCount += 1
+            }
         }
         .alert(isPresented: $showEndAlert) {
             Alert(title: Text("Shower Result"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
@@ -254,6 +264,7 @@ struct WaterView: View {
     var maxLiters: Int
     var isRunning: Bool
     var onStart: () -> Void
+    var bouncerCount: Int = 0
 
     var body: some View {
         GeometryReader { _ in
@@ -291,6 +302,7 @@ struct WaterView: View {
                                     .foregroundColor(.white)
                                     .padding()
                             }
+                            .symbolEffect(.bounce, value: bouncerCount)
                             .buttonStyle(DefaultButtonStyle())
                             .padding()
                             .background(Color.blue)

@@ -11,17 +11,20 @@ struct StatsView: View {
             VStack(spacing: 20) {
                 
                 if myStats.totalShowers > 0 {
-                    Text("Your shower stats")
+                    Text("Your shower stats 💧")
                         .font(.largeTitle)
+                        .fontWeight(.heavy)
+                        .multilineTextAlignment(.leading)
                         .bold()
                         .foregroundColor(.primary)
+                        .padding(.top, 15.0)
                     
                     GeometryReader { geometry in
                         VStack {
-                            StatCard(subtitle: "Liters you consume on average per shower", value: "\(myStats.averageLitersConsumed)L on average")
-                            StatCard(subtitle: "Liters you saved overall by using this app", value: "\(myStats.totalLitersSaved)L saved")
-                            StatCard(subtitle: "Times you ended your shower on time", value: "\(myStats.totalTimesWon) wins")
-                            StatCard(subtitle: "Current streak of wins", value: "Streak of \(myStats.streak)")
+                            StatCard(subtitle: "Liters you consume on average per shower", value: "\(myStats.averageLitersConsumed)L on average 🚿")
+                            StatCard(subtitle: "Liters you saved overall by using this app", value: "\(myStats.totalLitersSaved)L saved 🌊")
+                            StatCard(subtitle: "Times you ended your shower on time", value: "\(myStats.totalTimesWon) wins 🏆")
+                            StatCard(subtitle: "Current streak of wins", value: "Streak of \(myStats.streak) 🔥")
                         }
                         .frame(width: geometry.size.width, height: geometry.size.height)
                     }
