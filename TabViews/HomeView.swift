@@ -90,6 +90,17 @@ struct HomeView: View {
                     bouncerCount: bouncerCount
                 )
                 .padding(.bottom, 150.0)
+                
+                
+                // MARK: - pre-start instructions
+                if !currShower.isRunning {
+                    VStack{
+                        Spacer()
+                        Spacer()
+                        Text("End your shower in \(Text("\(mySettings.maxShowerTime / 60)").bold()) minutes to win!")
+                        Spacer()
+                    }
+                }
 
                 // MARK: - VStack containing Buttons
 

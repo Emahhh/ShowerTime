@@ -18,7 +18,7 @@ struct SettingsView: View {
                                 // .foregroundColor(.blue)
                                 .padding()
                             Spacer()
-                            Text("\(mySettings.maxShowerTime) minutes")
+                            Text("\(mySettings.maxShowerTime/60) minutes")
                             //.padding()
                         }
                     }
@@ -91,7 +91,7 @@ struct MaxShowerTimeView: View {
     var body: some View {
         Form {
             Stepper(value: $mySettings.maxShowerTime, in: (1*60)...(15*60), step: 60) {
-                Text("\(mySettings.maxShowerTime) minutes")
+                Text("\(mySettings.maxShowerTime / 60) minutes")
             }
 
             Text(
