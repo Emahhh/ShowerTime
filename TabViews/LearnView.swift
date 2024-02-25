@@ -18,6 +18,13 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 
+struct Page5View_Previews: PreviewProvider {
+    static var previews: some View {
+        Page5View()
+    }
+}
+
+
 
 
 struct TikTokContentView: View {
@@ -228,41 +235,37 @@ struct TextCardView: View {
     
     var body: some View {
         ZStack {
-            // create a card with a white opaque background
             RoundedRectangle(cornerRadius: 15, style: .continuous)
                 .fill(.thickMaterial)
-                .shadow(radius: 5) // reduce the shadow radius
-                .frame(width: 350, height: 325) // increase the frame width and height
-            
-            // create a vertical stack for the title and body
-            VStack(alignment: .center) { // use .center for the VStack alignment
-                
-                if !title.isEmpty {
-                    Text(title)
-                        .font(.title2)
-                        .foregroundColor(.black)
-                        .multilineTextAlignment(.leading)
-                }
-
-                
-                // create a text view for the body with a smaller font and gray color
-                Text(txtBody)
-                    .font(.body)
-                    .foregroundColor(.black)
-                    .multilineTextAlignment(.leading)
-                    .minimumScaleFactor(0.8) // reduce the font size if the text is too long
-            }
-            // add some padding and multiline text alignment to the center
-            .padding()
-            .multilineTextAlignment(.center)
-            // use the .frame modifier to center the text within the card
-            .frame(width: 300, height: 200, alignment: .center)
+                .shadow(radius: 5)
+                .frame(width: 350)
+                .frame(maxHeight: 325)
+                .overlay(
+                    VStack(alignment: .leading) {
+                        if !title.isEmpty {
+                            Text(title)
+                                .font(.title2)
+                                .foregroundColor(.black)
+                                .multilineTextAlignment(.leading)
+                                .padding(.bottom, 5.0)
+                                .frame(minWidth: 315)
+                        }
+                        
+                        Text(txtBody)
+                            .font(.body)
+                            .foregroundColor(.black)
+                            .multilineTextAlignment(.leading)
+                            .minimumScaleFactor(0.8)
+                            .frame(minWidth: 315)
+                    }
+                    .padding()
+                    .multilineTextAlignment(.center)
+                )
         }
-        // add some padding around the card
         .padding(10)
-
     }
 }
+
 
 
 
@@ -307,9 +310,12 @@ struct Page0View: View {
                 Spacer()
                 
                 Text("Scroll to see more")
+                    .fontWeight(.bold)
+                
                 Image(systemName: "arrowshape.down.fill")
                     .font(.title)
-                    .padding(.top, 10)
+                    .padding(.top, 6)
+                    
                 
                 Spacer()
             }

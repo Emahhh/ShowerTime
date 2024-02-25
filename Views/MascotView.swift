@@ -41,7 +41,7 @@ struct MascotView: View {
                 }
                 .multilineTextAlignment(.leading)
             }
-            .padding(.trailing, 2.0)
+            .padding(.horizontal, 13.0)
             .padding(8.0)
         }
         
