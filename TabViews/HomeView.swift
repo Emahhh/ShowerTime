@@ -146,9 +146,6 @@ struct HomeView: View {
 
                 VStack {
                     Spacer()
-                   
-
-
                     MascotView(
                         withPicture: currShower.mascotPic,
                         withText: currShower.mascotMsg

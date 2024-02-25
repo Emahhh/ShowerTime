@@ -79,6 +79,8 @@ class Shower: ObservableObject {
         currentPauseStartTimestamp = nil
         totalPausedTime = 0
         secondsLeft = 0;
+        mascotMsg = ""
+        mascotPic = "greeting"
         // print(self.description)
     }
     
@@ -138,7 +140,8 @@ class Shower: ObservableObject {
             mascotPic = "greeting" //TODO: cambia in sad
             
             let timeLeft: Int = SettingsManager.shared.maxShowerTime + SettingsManager.shared.gracePeriod - self.showerDuration
-            mascotMsg = (timeLeft <= 0) ? "Time to end your shower!" : "\nEnd in \(timeLeft) seconds to keep your streak going!"
+            mascotMsg = (timeLeft <= 0) ? "Time to end your shower!" : "End in \(timeLeft) seconds to keep your streak going!"
+            print(mascotMsg)
         }
 
         // Water messages ("that's enough water to...")

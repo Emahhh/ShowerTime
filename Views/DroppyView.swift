@@ -3,10 +3,10 @@ import SwiftUI
 
 struct MascotView: View {
     /// The selected image of the mascot to be shown
-    @State var withPicture: String
+    var withPicture : String
 
     /// Custom text to be shown in the speech bubble
-    @State var withText = ""
+    var withText : String
 
     var body: some View {
         if !withText.isEmpty {
