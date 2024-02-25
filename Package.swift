@@ -17,6 +17,7 @@ let package = Package(
             name: "ShowerTime",
             targets: ["AppModule"],
             bundleIdentifier: "io.github.emahhh.primo-playground",
+            teamIdentifier: "2N28HRXCL8",
             displayVersion: "1.0",
             bundleVersion: "1",
             appIcon: .placeholder(icon: .leaf),
@@ -25,7 +26,7 @@ let package = Package(
                 .phone
             ],
             supportedInterfaceOrientations: [
-                .portrait,
+                .portrait
             ],
             appCategory: .lifestyle
         )
