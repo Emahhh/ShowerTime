@@ -12,15 +12,17 @@ struct WaterView: View {
             ZStack(alignment: .bottom) {
 
                 // Mask for water level to be visible only inside the white rectangle
-                Rectangle()
+                RoundedRectangle(cornerRadius: 50)
                     .frame(width: 250, height: 250)
                     .foregroundColor(.blue)
-                    .mask(
-                        Rectangle()
+                    .mask(alignment: Alignment.bottom){
+                        RoundedRectangle(cornerRadius: 50)
                             .frame(width: 250, height: CGFloat(litersConsumed) / CGFloat(maxLiters) * 250)
                             .foregroundColor(.blue)
+                            .opacity(0.7)
                             .animation(.easeInOut)
-                    )
+                    }
+                
 
                 ZStack {
                     // White rectangle
