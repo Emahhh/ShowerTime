@@ -1,10 +1,11 @@
 import SwiftUI
 
+
 struct MascotView: View {
-    /// the selected image of droppy to be show
+    /// The selected image of the mascot to be shown
     @State var withPicture: String
 
-    /// Custom text to be shown in the text bubble
+    /// Custom text to be shown in the speech bubble
     @State var withText = ""
 
     var body: some View {
@@ -12,27 +13,35 @@ struct MascotView: View {
             Image(withPicture) // Display the current emotion PNG
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 100, height: 100)
-                .padding()
-            
+                .frame(width: 90, height: 90)
+                .padding(.trailing, 2.0)
+
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.blue)
-                    .frame(width: 200, height: 60)
-                    .shadow(radius: 4)
+                    .fill(Color.white)
+                    .frame(height: 100)
+                    .shadow(radius: 4) // Add a subtle shadow effect
                 Text(withText)
-                    .foregroundColor(.white)
+                    .lineLimit(4) // Allow unlimited lines
+                    .fixedSize(horizontal: false, vertical: true) // Multiline text
+                    .foregroundColor(.black)
+                    .multilineTextAlignment(.leading)
                     .padding()
             }
-
-                
+            .padding(.leading)
+            .multilineTextAlignment(.leading)
         }
-        .padding()
+        .padding(.trailing, 2.0)
+        .padding(2.0)
     }
 }
 
+
+
+
+
 struct MascotView_Previews: PreviewProvider {
     static var previews: some View {
-        MascotView(withPicture: "greeting", withText: "Hello World!")
+        MascotView(withPicture: "greeting", withText: "Hello, I'm your friendly mascot!Hello, I'm your friendly mascot!Hello, I'm your friendly mascot!Hello, I'm your friendly mascot!")
     }
 }
