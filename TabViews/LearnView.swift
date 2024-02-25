@@ -433,7 +433,7 @@ struct Page4View: View {
     var body: some View {
         ZStack {
             LinearGradient(
-                gradient: Gradient(colors: [learnColors.color4, learnColors.color5]),
+                gradient: Gradient(colors: [learnColors.color5, learnColors.color6]),
                 startPoint: .init(x: 0.50, y: 0.00),
                 endPoint: .init(x: 0.50, y: 1.00)
                     )
@@ -460,7 +460,7 @@ struct Page5View: View {
     var body: some View {
         ZStack {
             LinearGradient(
-                gradient: Gradient(colors: [learnColors.color5, learnColors.color6]),
+                gradient: Gradient(colors: [learnColors.color6, learnColors.color7]),
                 startPoint: .init(x: 0.50, y: 0.00),
                 endPoint: .init(x: 0.50, y: 1.00)
                     )
@@ -487,7 +487,7 @@ struct Page6View: View {
     var body: some View {
         ZStack {
             LinearGradient(
-                gradient: Gradient(colors: [learnColors.color6, learnColors.color7]),
+                gradient: Gradient(colors: [learnColors.color7, learnColors.color8]),
                 startPoint: .init(x: 0.50, y: 0.00),
                 endPoint: .init(x: 0.50, y: 1.00)
                     )
@@ -516,7 +516,7 @@ struct Page7View: View {
     var body: some View {
         ZStack {
             LinearGradient(
-                gradient: Gradient(colors: [learnColors.color7, learnColors.color8]),
+                gradient: Gradient(colors: [learnColors.color8, learnColors.color9]),
                 startPoint: .init(x: 0.50, y: 0.00),
                 endPoint: .init(x: 0.50, y: 1.00)
                     )
@@ -547,7 +547,7 @@ struct Page8View: View {
     var body: some View {
         ZStack {
             LinearGradient(
-                gradient: Gradient(colors: [learnColors.color8, learnColors.color9]),
+                gradient: Gradient(colors: [learnColors.color9, learnColors.color10]),
                 startPoint: .init(x: 0.50, y: 0.00),
                 endPoint: .init(x: 0.50, y: 1.00)
                     )
