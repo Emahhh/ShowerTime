@@ -64,15 +64,20 @@ struct HomeView: View {
                 .edgesIgnoringSafeArea(.all)
 
             ZStack {
-                // MARK: - Streak on the top-right corner
-
+                
+                
+                
+                // MARK: - Title
                 VStack {
                     HStack {
-                        Spacer()
-                        StreakView(streakCount: myUserStats.streak)
+                        Text("ShowerTime 🚿")
+                            .font(.title)
+                            .fontWeight(.heavy)
+                        
                     }
                     Spacer()
                 }
+                .padding(.top, 25.0)
 
                 // MARK: - Central square (WaterView)
 
@@ -180,6 +185,20 @@ struct HomeView: View {
                 } // end of mascotte's vstack
                 .padding(.all)
                 .padding(.bottom, 25)
+                
+                // MARK: - Streak on the top-right corner
+                
+                if !currShower.isRunning {
+                    VStack{
+                        Spacer()
+                        StreakView(streakCount: myUserStats.streak)
+                            .padding(.bottom, 50.0)
+                    }
+                }
+
+                
+                
+                
             } // end of ZStack containing elements
         } // end of the first ZStack (containing background)
         .onReceive(timerPublisher) { _ in
