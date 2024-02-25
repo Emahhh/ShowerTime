@@ -104,7 +104,7 @@ struct HomeView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
-                Text("Streak: \(myUserStats.streak)")
+                StreakView(streakCount: myUserStats.streak)
                 
                 Spacer()
                 
@@ -265,6 +265,32 @@ struct HomeView: View {
     
 
 }
+
+
+
+struct StreakView: View {
+    var streakCount: Int
+    
+    var body: some View {
+        
+        if streakCount > 0 {
+            ZStack {
+                RoundedRectangle(cornerRadius: 20)
+                    .foregroundColor(Color.blue) // Customize the color of the pill shape
+                    .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2) // Add shadow effect for depth
+                
+                Text("Streak: \(streakCount) 🔥")
+                    .foregroundColor(.white) // Text color
+                    .font(.headline) // Text font style
+                    .padding(5)
+            }
+            .frame(width: 150, height: 40) // Adjust the height of the pill shape
+            .padding(20) // Add padding for spacing
+        }
+    }
+}
+
+
 
 
 
