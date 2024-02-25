@@ -57,7 +57,7 @@ struct ContentView: View {
             }
         }
         .alert(isPresented: $showAlert) {
-            Alert(title: Text("End Your Shower"), message: Text("Please end your current shower before switching tabs."), dismissButton: .default(Text("OK")))
+            Alert(title: Text("End Your Shower First! 🛑⏰"), message: Text("You have a timer running. Please end it before switching tabs."), dismissButton: .default(Text("OK")))
         }
     }
     
