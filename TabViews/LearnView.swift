@@ -299,7 +299,7 @@ struct Page0View: View {
                 Spacer()
                 
                 MascotView(
-                    withPicture: "teacher",
+                    withPicture: "greeting",
                     withText: "Let's learn together about........"
                 )
                 .padding(.bottom, 80.0)
@@ -433,7 +433,7 @@ struct Page4View: View {
             VStack {
                 
                 MascotView(
-                    withPicture: "teacher",
+                    withPicture: "green",
                     withText: "Why is saving water important?"
                 )
                 // use the TextCardView component to display the information
@@ -460,7 +460,7 @@ struct Page5View: View {
             VStack {
                 
                 MascotView(
-                    withPicture: "teacher",
+                    withPicture: "green",
                     withText: "What are some other benefits of taking shorter showers?"
                 )
                 // use the TextCardView component to display the information
@@ -544,7 +544,7 @@ struct Page8View: View {
             VStack {
                 
                 MascotView(
-                    withPicture: "celebrating",
+                    withPicture: "hearts",
                     withText: "Congratulations! 🎉🥳"
                 )
                 // use the TextCardView component to display the message

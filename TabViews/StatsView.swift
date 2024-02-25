@@ -78,7 +78,7 @@ struct StatCard: View {
     
     var body: some View {
         RoundedRectangle(cornerRadius: 15)
-            .fill(Color.white)
+            .fill(.regularMaterial)
             .shadow(radius: 2)
             .overlay(
                 HStack {

@@ -11,24 +11,32 @@ struct MascotView: View {
     var body: some View {
         if !withText.isEmpty {
             HStack {
-                Image(withPicture) // Display the current emotion PNG
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .shadow(radius: 4)
-                    .frame(width: 90, height: 90)
+                
 
                 ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(.ultraThickMaterial)
+                    RoundedRectangle(cornerRadius: 24)
+                        .fill(Color.white)
                         .frame(height: 100)
                         .shadow(radius: 5)
                         .overlay(
-                            Text(withText)
-                                .lineLimit(4)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .foregroundColor(.black)
-                                .multilineTextAlignment(.leading)
-                                .padding()
+                            HStack{
+                                Image(withPicture) // Display the current emotion PNG
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 90, height: 90)
+                                    .cornerRadius(30)
+                                
+                                Text(withText)
+                                    .lineLimit(4)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .foregroundColor(.black)
+                                    .multilineTextAlignment(.leading)
+                                    .padding()
+                            },
+                            
+
+                            
+                            alignment: .leading
                         )
                 }
                 .multilineTextAlignment(.leading)
