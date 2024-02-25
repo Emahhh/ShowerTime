@@ -9,30 +9,33 @@ struct MascotView: View {
     @State var withText = ""
 
     var body: some View {
-        HStack {
-            Image(withPicture) // Display the current emotion PNG
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 90, height: 90)
+        if !withText.isEmpty {
+            HStack {
+                Image(withPicture) // Display the current emotion PNG
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 90, height: 90)
 
-            ZStack {
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.white)
-                    .frame(height: 100)
-                    .shadow(radius: 4)
-                    .overlay(
-                        Text(withText)
-                            .lineLimit(4)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .foregroundColor(.black)
-                            .multilineTextAlignment(.leading)
-                            .padding()
-                    )
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color.white)
+                        .frame(height: 100)
+                        .shadow(radius: 4)
+                        .overlay(
+                            Text(withText)
+                                .lineLimit(4)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .foregroundColor(.black)
+                                .multilineTextAlignment(.leading)
+                                .padding()
+                        )
+                }
+                .multilineTextAlignment(.leading)
             }
-            .multilineTextAlignment(.leading)
+            .padding(.trailing, 2.0)
+            .padding(8.0)
         }
-        .padding(.trailing, 2.0)
-        .padding(8.0)
+        
     }
 }
 

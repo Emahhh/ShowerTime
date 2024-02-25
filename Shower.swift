@@ -16,7 +16,10 @@ class Shower: ObservableObject {
     @Published var litersConsumed: Int = 0
     @Published var won: Bool = false
     @Published var isPastMaxTime: Bool = false
-    
+    @Published var mascotMsg = ""
+    @Published var mascotPic = "greeting"
+    @State private var waterMessagesManager = WaterMessagesManager()
+
     /// true from start to end.
     ///
     /// can be true even if in pause.
@@ -124,6 +127,29 @@ class Shower: ObservableObject {
             // TODO: decide when to notify with sound: in advance or exactly at max time?
             audioManager.playSound()
         }
+        
+        
+        
+        
+        
+        
+        // if the user ran out of time, show an ultimatum countdown
+        if self.isPastMaxTime {
+            mascotPic = "greeting" //TODO: cambia in sad
+            
+            let timeLeft: Int = SettingsManager.shared.maxShowerTime + SettingsManager.shared.gracePeriod - self.showerDuration
+            mascotMsg = (timeLeft <= 0) ? "Time to end your shower!" : "\nEnd in \(timeLeft) seconds to keep your streak going!"
+        }
+
+        // Water messages ("that's enough water to...")
+        if let enoughTo = waterMessagesManager?.getWaterMessage(forLiters: self.litersConsumed) {
+            // TODO: hide if too long
+            // TODO: cambia solo ogni tanto
+            mascotMsg += enoughTo
+        }
+
+        
+        
     }
     
     /// Converts seconds to a timestamp string of the form "MM:SS"

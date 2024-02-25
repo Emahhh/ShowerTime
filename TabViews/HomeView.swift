@@ -40,7 +40,7 @@ struct HomeView_Previews: PreviewProvider {
 }
 
 struct HomeView: View {
-    @State private var waterMessagesManager = WaterMessagesManager()
+    
 
     @State private var showEndAlert: Bool = false
     @State private var alertMessage: String = ""
@@ -146,41 +146,14 @@ struct HomeView: View {
 
                 VStack {
                     Spacer()
-                    // if the user ran out of time, show an ultimatum countdown
-                    if currShower.isPastMaxTime {
-                        VStack {
-                            Text("Time to end your shower!")
-                                .font(.title)
-                                .fontWeight(.heavy)
-                                .multilineTextAlignment(.center)
-                                .opacity(isTextVisible ? 1.0 : 0.0) // Initially set to invisible
-                                .onAppear {
-                                    withAnimation(.easeInOut(duration: 0.7)) {
-                                        isTextVisible = true // Trigger the fade-in animation
-                                    }
-                                }
+                   
 
-                            let timeLeft: Int = mySettings.maxShowerTime + mySettings.gracePeriod - currShower.showerDuration
 
-                            if timeLeft > 0 {
-                                Text("End in \(timeLeft) seconds to keep your streak going!")
-                                    .opacity(isTextVisible ? 1.0 : 0.0) // Initially set to invisible
-                                    .onAppear {
-                                        withAnimation(.easeInOut(duration: 0.7)) {
-                                            isTextVisible = true // Trigger the fade-in animation
-                                        }
-                                    }
-                            }
-                        }
-                    }
-
-                    // Water messages ("that's enough water to...")
-                    if let message = waterMessagesManager?.getWaterMessage(forLiters: currShower.litersConsumed) {
-                        Text(message)
-                    }
+                    MascotView(
+                        withPicture: currShower.mascotPic,
+                        withText: currShower.mascotMsg
+                    )
                 } // end of mascotte's vstack
-                .padding(.all)
-                .padding(.bottom, 25)
 
                 // MARK: - Streak on the top-right corner
 
