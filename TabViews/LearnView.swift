@@ -300,7 +300,7 @@ struct Page0View: View {
                 
                 MascotView(
                     withPicture: "greeting",
-                    withText: "Let's learn together about........"
+                    withText: "Let's learn together about water and how to save it!"
                 )
                 .padding(.bottom, 80.0)
                 
@@ -330,10 +330,10 @@ struct Page1View: View {
                 
                 MascotView(
                     withPicture: "teacher",
-                    withText: "Let's start with some quizzes! Which is the correct one?"
+                    withText: "Let's start with some quizzes! How much water do you need to drink every day?"
                 )
                 QuizCardView(
-                    options: ["prova1", "correct answer", "prova3"],
+                    options: ["1 liter", "2 liters", "3 liters", "4 liters"],
                     correctOptionIndex: 1
                 )
             }
@@ -355,8 +355,12 @@ struct Page2View: View {
             VStack {
                 
                 MascotView(
-                    withPicture: "teacher",
-                    withText: "Did you know that......?"
+                    withPicture: "crying",
+                    withText: "Did you know that water scarcity affects 40% of the world’s population?"
+                )
+                
+                TextCardView(
+                    txtBody: "700 million people are at-risk of being displaced as a result of drought by 2030.\n\nDroughts and desertification are serious environmental threats that are closely related? They can affect food production, health, and the environment. About 2.1 billion people lack access to safe drinking water at home"
                 )
             }
         }
@@ -364,6 +368,10 @@ struct Page2View: View {
 
     }
 }
+
+
+
+
 
 struct Page3View: View {
     var body: some View {
@@ -377,7 +385,7 @@ struct Page3View: View {
             VStack {
                 
                 MascotView(
-                    withPicture: "teacher",
+                    withPicture: "steam",
                     withText: "Do you know how much water you use in a shower?"
                 )
                 // use the TextCardView component to display the information
@@ -405,7 +413,7 @@ struct Page4QuizView: View {
                 // use the MascotView component to display the mascot and the question
                 MascotView(
                     withPicture: "teacher",
-                    withText: "How much water on earth is available for human consumption?"
+                    withText: "Can you guess how much water on earth is available for human consumption?"
                 )
                 // use the QuizCardView component to display the options and the correct answer
                 QuizCardView(
@@ -439,7 +447,7 @@ struct Page4View: View {
                 // use the TextCardView component to display the information
                 TextCardView(
                     title: "Water is essential for life on Earth.",
-                    txtBody: "It supports many ecosystems, agriculture, industry, and human health. However, water is a limited and precious resource. Only about 2.5% of the water on Earth is fresh, and most of it is frozen in glaciers and ice caps. Therefore, we need to use water wisely and avoid wasting it."
+                    txtBody: "It supports many ecosystems, agriculture, industry, and human health. However, water is a limited and precious resource. We need to use water wisely and avoid wasting it."
                 )
             }
         }
@@ -466,7 +474,7 @@ struct Page5View: View {
                 // use the TextCardView component to display the information
                 TextCardView(
                     title: "Taking shorter showers reduces your carbon footprint!",
-                    txtBody: "You can save up to 15 kWh of energy per shower if you reduce your shower time by 5 minutes. That means you'll reduce your carbon footprint and greenhouse gas emissions!"
+                    txtBody: "You can save up to 15 kWh of energy per shower if you reduce your shower time by 5 minutes. That means you'll also reduce your carbon footprint!"
                 )
             }
         }
@@ -487,7 +495,7 @@ struct Page6View: View {
             VStack {
                 
                 MascotView(
-                    withPicture: "teacher",
+                    withPicture: "steam",
                     withText: "How can you take shorter showers?"
                 )
                 // use the TextCardView component to display the information
@@ -533,6 +541,9 @@ struct Page7View: View {
 }
 
 struct Page8View: View {
+    
+    @State var confettiCounter = 0
+    
     var body: some View {
         ZStack {
             LinearGradient(
@@ -545,13 +556,41 @@ struct Page8View: View {
                 
                 MascotView(
                     withPicture: "hearts",
-                    withText: "Congratulations! 🎉🥳"
+                    withText: "Congratulations!!! "
                 )
                 // use the TextCardView component to display the message
                 TextCardView(
                     title: "You have completed the learning section of the app.",
                     txtBody: "You have learned about the importance of saving water, and how to make it more effective. You have also tested your knowledge with a quiz. You are now ready to start saving water and making a difference!"
                 )
+                
+                Button(action: {
+                    self.confettiCounter += 1
+                }) {
+                    Text("Tap to celebrate 🎉🥳")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color.purple, Color.blue]),
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .cornerRadius(15)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color.white, lineWidth: 2)
+                        )
+                        .shadow(color: Color.gray.opacity(0.5), radius: 5, x: 0, y: 5)
+                        .padding(.horizontal, 45)
+                        .scaleEffect(confettiCounter.isMultiple(of: 2) ? 1.05 : 1)
+                        .animation(.spring(response: 0.3, dampingFraction: 0.6, blendDuration: 0.6))
+                }
+                .confettiCannon(counter: $confettiCounter, confettis: [.text("💦"), .text("💙"), .text("💧"), .text("🌿")])
+
             }
         }
         
