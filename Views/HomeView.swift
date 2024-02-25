@@ -120,15 +120,19 @@ struct HomeView: View {
                                         endShower()
                                     }
                                 }) {
-                                    Text("END")
-                                        .bold()
-                                        .foregroundColor(.white)
-                                        .padding()
-                                        .background(
-                                            LinearGradient(gradient: Gradient(colors: [Color.red, Color.orange]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                                        )
-                                        .cornerRadius(30)
-                                        .shadow(color: .gray, radius: 4, x: 0, y: 2)
+                                    // TODO: add bounce animation??
+                                    HStack {
+                                        Text("END")
+                                            .bold()
+                                            .foregroundColor(.white)
+                                    }
+                                    .padding()
+                                    .background(
+                                        LinearGradient(gradient: Gradient(colors: [Color.red, Color.orange]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                                    )
+                                    .cornerRadius(30)
+                                    .shadow(color: .gray, radius: 4, x: 0, y: 2)
+                                    
                                 }
                             }
                         }
@@ -186,7 +190,10 @@ struct HomeView: View {
 
             // Increment bouncerCount once every 3 times
             counter += 1
-            if counter % 3 == 0 {
+            if counter % 2 == 0 {
+                guard !currShower.isRunning || currShower.isPastMaxTime else {
+                    return
+                }
                 bouncerCount += 1
             }
         }
