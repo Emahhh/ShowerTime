@@ -117,12 +117,12 @@ struct ShowerheadTypeView: View {
       }
       .pickerStyle(SegmentedPickerStyle())
       .padding(4)
-
+        
+        Text("You are consuming roughly \(mySettings.litersPerMinute) liters per minute")
+        // TODO: rearrange text
       Text(
         """
         Choose your type of showerhead to have a better estimation of how many liters your shower consumes per minute.
-        - An inefficient showerhead uses roughly 19 L/min
-        - An efficient showerhead uses 9 L/min.
         If you are not sure, select the inefficient showerhead.
         """
       )
