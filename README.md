@@ -1,6 +1,10 @@
 # ShowerTime
 ShowerTime is a fun and educative iOS app that helps you save water and have fun while taking showers. It is built using **SwiftUI** and requires iOS 17 or higher to run.
 
+<video autoplay muted loop height="500" src="https://github.com/Emahhh/ShowerTime/assets/27818313/2ac38776-ca76-40ae-a304-7756f3136e4a"></video>
+</video>
+
+
 ## Concept
 ShowerTime aims to raise awareness of your water consumption and motivate you to take shorter showers, educating the user about why saving water is important and how to do it effectively. It also adds a fun twist to your shower routine by showing you some interesting facts and trivia.
 
