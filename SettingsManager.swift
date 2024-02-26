@@ -5,13 +5,12 @@ class SettingsManager: ObservableObject {
     static let shared = SettingsManager()
     private init() {}
 
-    @AppStorage("maxShowerTime") var maxShowerTime: Int = 1
+    @AppStorage("maxShowerTime") var maxShowerTime: Int = 1*60
     @AppStorage("litersPerMinute") var litersPerMinute: Int = 19
     @AppStorage("gracePeriod") var gracePeriod: Int = 15
 
     /// Resets settings to default
     func resetSettings() {
-        // TODO: put the real default vaues as in the UI
         maxShowerTime = 1*60
         litersPerMinute = 19
         

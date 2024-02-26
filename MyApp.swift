@@ -17,10 +17,6 @@ struct MyApp: App {
                     WelcomeView()
                         .preferredColorScheme(.light)
                         .navigationBarHidden(true)
-                        .onAppear {
-                            // Set the flag to false after the first launch so that it never shows up again
-                            isFirstLaunch = false
-                        }
                     
                 } else {
                     ContentView()

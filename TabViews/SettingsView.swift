@@ -38,15 +38,14 @@ struct SettingsView: View {
 
                 }
 
-                // TODO: fill views
                 Section(header: Text("Info")) {
-                    NavigationLink(destination: EmptyView()) {
+                    NavigationLink(destination: AboutView()) {
                         HStack {
                             Text("About")
                         }
                     }
 
-                    NavigationLink(destination: EmptyView()) {
+                    NavigationLink(destination: WelcomeView(hideButton: true)) {
                         HStack {
                             Text("How to use this app")
                         }
@@ -64,6 +63,7 @@ struct SettingsView: View {
 
                     Button(action: {
                         mySettings.resetSettings()
+                        
                     }) {
                         Text("Reset Settings ⚙️")
                             .foregroundColor(.red)
@@ -134,3 +134,31 @@ struct ShowerheadTypeView: View {
         .navigationBarTitle("🚿 Type of Showerhead")
     }
 }
+
+
+
+struct AboutView: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            Text("Made with ❤️ by Emah")
+                .font(.title)
+                .padding()
+
+            Text("Open Source Libraries:")
+                .font(.title2)
+                .padding(.top)
+
+            Link("ConfettiSwiftUI", destination: URL(string: "https://github.com/simibac/ConfettiSwiftUI")!)
+                .font(.headline)
+                .foregroundColor(.blue)
+        }
+        .navigationBarTitle("About", displayMode: .inline)
+    }
+}
+
+struct AboutView_Previews: PreviewProvider {
+    static var previews: some View {
+        AboutView()
+    }
+}
+
