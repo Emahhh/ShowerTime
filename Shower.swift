@@ -208,7 +208,7 @@ class AudioManager {
 
     /// Plays the sound only if it hasn't been played recently (in the last `interval` seconds)
     func playSound(interval: TimeInterval = 30) {
-        guard let url = Bundle.main.url(forResource: "tyla_water", withExtension: "mp3") else {
+        guard let url = Bundle.main.url(forResource: "alarm", withExtension: "mp3") else {
             print("Error: unable to find file")
             return
         }

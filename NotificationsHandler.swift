@@ -17,7 +17,7 @@ class NotificationDelegate: ObservableObject {
         let content = UNMutableNotificationContent()
         content.title = "Shower Reminder"
         content.body = "Time to end your shower!"
-        content.sound = UNNotificationSound(named: UNNotificationSoundName("tyla_water.mp3"))
+        content.sound = UNNotificationSound(named: UNNotificationSoundName("alarm.mp3"))
 
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(inSeconds), repeats: false)
 
