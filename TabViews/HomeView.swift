@@ -218,18 +218,15 @@ struct HomeView: View {
 
         isTextVisible = false
 
-        // TODO: save the shower data
         myUserStats.saveNewShower(
             isWon: currShower.won,
             litersConsumed: currShower.litersConsumed,
-            litersSaved: 1 // TODO: calculate extimation liters saved
+            litersSaved: 70 - currShower.litersConsumed // average
         )
 
-        // TODO: celebrate won or loss in a nice way
         // Show alert to celebrate win or loss
         alertMessage = currShower.won ? "You ended on time and saved water! 🥳" : "You exceeded the time. 😢\nTry to end your shower sooner next time."
         showEndAlert = true
-        // TODO: confetti animation
         if currShower.won {
             confettiCounter += 1
         }
