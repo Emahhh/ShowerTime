@@ -3,6 +3,8 @@ import SwiftUI
 @main
 struct MyApp: App {
     @StateObject private var notificationDelegate = NotificationDelegate()
+    
+    @AppStorage("isFirstLaunch") var isFirstLaunch : Bool = true;
 
     init() {
         requestNotificationAuthorization()
@@ -10,18 +12,39 @@ struct MyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                    // App is about to enter foreground
-                    notificationDelegate.cancelNotification()
+            NavigationView{
+                if isFirstLaunch {
+                    WelcomeView()
+                        .preferredColorScheme(.light)
+                        .navigationBarHidden(true)
+                        .onAppear {
+                            // Set the flag to false after the first launch so that it never shows up again
+                            isFirstLaunch = false
+                        }
+                    
+                } else {
+                    ContentView()
+                        .navigationBarBackButtonHidden(true)
+                        .navigationBarHidden(true)
+                        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                            // App is about to enter foreground
+                            notificationDelegate.cancelNotification()
+                        }
+                        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
+                            // App entered background
+                            if !Shower.shared.isPaused {
+                                notificationDelegate.scheduleNotification(inSeconds: Shower.shared.secondsLeft)
+                            }
+                        }
+                        .preferredColorScheme(.light)
+                        
+                        
                 }
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
-                    // App entered background
-                    if !Shower.shared.isPaused {
-                        notificationDelegate.scheduleNotification(inSeconds: Shower.shared.secondsLeft)
-                    }
-                }
-                .preferredColorScheme(.light)
+                
+            }
+            .navigationBarBackButtonHidden(true)
+            
+            
         }
         
     }

@@ -5,18 +5,19 @@ extension Color {
 }
 
 struct ContentView: View {
-    
-    @ObservedObject var currShower = Shower.shared;
-    
+
+
+    @ObservedObject var currShower = Shower.shared
+
     @State private var showAlert = false
     @State private var selectedTab = 0
     @State private var previousTab = 0
 
     var body: some View {
-        ZStack{
+        ZStack {
             Color(UIColor.lightGray)
                 .ignoresSafeArea()
-            
+
             TabView(selection: $selectedTab) {
                 // Home Tab
                 HomeView()
@@ -24,21 +25,21 @@ struct ContentView: View {
                         Label("Home", systemImage: "house")
                     }
                     .tag(0)
-                
+
                 // Stats Tab
                 StatsView()
                     .tabItem {
                         Label("Stats", systemImage: "chart.bar.fill")
                     }
                     .tag(1)
-                
+
                 // Learn Tab
                 LearnView()
                     .tabItem {
                         Label("Learn", systemImage: "book.fill")
                     }
                     .tag(2)
-                
+
                 // Settings Tab
                 SettingsView()
                     .tabItem {
@@ -55,11 +56,9 @@ struct ContentView: View {
                     previousTab = newValue
                 }
             }
-        }
-        .alert(isPresented: $showAlert) {
-            Alert(title: Text("End Your Shower First! 🛑⏰"), message: Text("You have a timer running. Please end it before switching tabs."), dismissButton: .default(Text("OK")))
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text("End Your Shower First! 🛑⏰"), message: Text("You have a timer running. Please end it before switching tabs."), dismissButton: .default(Text("OK")))
+            }
         }
     }
-    
-
 }
